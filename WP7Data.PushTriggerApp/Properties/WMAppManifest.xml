@@ -22,10 +22,9 @@
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="WP7Data.PushTriggerAppToken" TaskName="_default">
+      <PrimaryToken TokenID="WP7Data.Push.TriggerAppToken" TaskName="_default">
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
-          <Count>0</Count>
           <Title>WP7Data.Push.TriggerApp</Title>
         </TemplateType5>
       </PrimaryToken>

@@ -55,9 +55,5 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
         }
 
-        public static void Cleanup()
-        {
-            
-        }
     }
 }

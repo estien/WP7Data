@@ -12,9 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using GalaSoft.MvvmLight;
-
-namespace WP7Data.PushTriggerApp.ViewModel
+namespace WP7Data.Push.TriggerApp.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

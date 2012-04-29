@@ -1,6 +1,6 @@
 using GalaSoft.MvvmLight;
 
-namespace WP7Data.PushTriggerApp.ViewModel
+namespace WP7Data.Push.TriggerApp.ViewModel
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.

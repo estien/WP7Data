@@ -85,7 +85,6 @@ namespace WP7Data.Push.ConsumerApp
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            ViewModelLocator.Cleanup();
         }
 
         // Code to execute if a navigation fails

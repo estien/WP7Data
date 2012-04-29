@@ -16,6 +16,11 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+
+        public string PageName
+        {
+            get { return "hello Eirik"; }
+        }
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
