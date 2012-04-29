@@ -39,6 +39,7 @@ namespace WP7Data.BackgroundAgentApp.ViewModel
             ////}
 
             _main = new MainViewModel();
+            _main.StartPeriodicAgent();
         }
 
         /// <summary>
