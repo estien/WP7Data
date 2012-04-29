@@ -8,6 +8,8 @@ namespace WP7Data.Push.ConsumerApp
         public MainPage()
         {
             InitializeComponent();
+
+            
         }
     }
 }

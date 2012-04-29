@@ -1,4 +1,19 @@
+using System.Diagnostics;
 using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using Microsoft.Phone.Controls;
+using WP7Data.Push.ConsumerApp.PushService;
+
 
 namespace WP7Data.Push.ConsumerApp.ViewModel
 {
@@ -26,14 +41,17 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            var client = new PushServiceClient();
+
+            client.GetDataCompleted += (object sender, GetDataCompletedEventArgs args) =>
+                                           {
+                                               Debug.WriteLine(args.Result.ToString());
+
+                                           };
+
+            client.GetDataAsync(1337);
+
+            client.CloseAsync();
         }
     }
 }
