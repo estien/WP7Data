@@ -29,5 +29,6 @@ namespace WP7Data.Push.Service
             }
             return composite;
         }
+
     }
 }

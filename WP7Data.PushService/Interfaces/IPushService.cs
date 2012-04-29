@@ -8,11 +8,17 @@ namespace WP7Data.Push.Service.Interfaces
     public interface IPushService
     {
 
+        #region Samples
+        /* Samples of both objects and strings that can be returned from the service */
+
         [OperationContract]
         string GetData(int value);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
+
+        
+        #endregion
 
         // TODO: Add your service operations here
     }
