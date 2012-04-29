@@ -12,9 +12,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using WP7Data.PushConsumerApp.ViewModel;
+using WP7Data.Push.ConsumerApp.ViewModel;
 
-namespace WP7Data.PushConsumerApp
+namespace WP7Data.Push.ConsumerApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

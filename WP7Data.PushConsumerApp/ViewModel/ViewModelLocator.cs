@@ -14,7 +14,7 @@
 
 using GalaSoft.MvvmLight;
 
-namespace WP7Data.PushConsumerApp.ViewModel
+namespace WP7Data.Push.ConsumerApp.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

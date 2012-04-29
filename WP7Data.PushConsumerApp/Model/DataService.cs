@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WP7Data.PushConsumerApp.Model
+namespace WP7Data.Push.ConsumerApp.Model
 {
     public class DataService : IDataService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using WP7Data.PushConsumerApp.Model;
+using WP7Data.Push.ConsumerApp.Model;
 
-namespace WP7Data.PushConsumerApp.Design
+namespace WP7Data.Push.ConsumerApp.Design
 {
     public class DesignDataService : IDataService
     {
