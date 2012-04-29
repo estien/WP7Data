@@ -1,11 +1,16 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
 
 namespace WP7Data.BackgroundTaskAgent
 {
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
+        private static readonly string _pictureUrl = "http://2.bp.blogspot.com/_JP9OiUP__qY/TOvdF0vZpaI/AAAAAAAAAlA/5EEo_gIifD0/s1600/funny-monkey-2.jpg";
+
 
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
@@ -44,7 +49,18 @@ namespace WP7Data.BackgroundTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            //TODO: Add code to perform your task in background
+            var tileToFind = ShellTile.ActiveTiles.FirstOrDefault();
+
+            if(tileToFind != null)
+            {
+                var tileData = new StandardTileData
+                                   {
+                                       BackTitle = "Jeg lever!",
+                                       BackBackgroundImage = new Uri(_pictureUrl, UriKind.Absolute)
+                                   };
+
+                tileToFind.Update(tileData);
+            }
 
             NotifyComplete();
         }

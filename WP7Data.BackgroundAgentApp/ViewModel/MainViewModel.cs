@@ -70,7 +70,7 @@ namespace WP7Data.BackgroundAgentApp.ViewModel
                
                 // If debugging is enabled, use LaunchForTest to launch the agent in one minute.
 #if(DEBUG_AGENT)
-                ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(60));
+                ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(10));
 #endif
             }
             catch (InvalidOperationException exception)

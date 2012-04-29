@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{c3d2cbcc-a876-420d-a231-05c17dcaa7ad}" Title="WP7Data.BackgroundAgentApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WP7Data.BackgroundAgentApp author" Description="Sample description" Publisher="WP7Data.BackgroundAgentApp">
+  <App xmlns="" ProductID="{c3d2cbcc-a876-420d-a231-05c17dcaa7ad}" Title="BackgroundAgentApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WP7Data.BackgroundAgentApp author" Description="Sample description" Publisher="WP7Data.BackgroundAgentApp">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -29,7 +29,7 @@
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>WP7Data.BackgroundAgentApp</Title>
+          <Title>BackgroundAgentApp</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>
