@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7Data.Push.TriggerApp", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7Data.BackgroundAgentApp", "WP7Data.BackgroundAgentApp\WP7Data.BackgroundAgentApp.csproj", "{6B1C4268-C0F3-4E6F-ABC0-AADADF5A5A2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7Data.BackgroundTaskAgent", "WP7Data.BackgroundTaskAgent\WP7Data.BackgroundTaskAgent.csproj", "{94FEFC64-464F-4FC3-88AD-47DC37CDF780}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{6B1C4268-C0F3-4E6F-ABC0-AADADF5A5A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B1C4268-C0F3-4E6F-ABC0-AADADF5A5A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B1C4268-C0F3-4E6F-ABC0-AADADF5A5A2E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{94FEFC64-464F-4FC3-88AD-47DC37CDF780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94FEFC64-464F-4FC3-88AD-47DC37CDF780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94FEFC64-464F-4FC3-88AD-47DC37CDF780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94FEFC64-464F-4FC3-88AD-47DC37CDF780}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
