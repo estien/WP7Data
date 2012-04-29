@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="WP7Data.PushService.Service1" CodeBehind="PushService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WP7Data.Push.Service.PushService" CodeBehind="PushService.svc.cs" %>
