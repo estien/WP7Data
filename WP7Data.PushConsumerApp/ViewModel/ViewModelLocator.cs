@@ -1,52 +1,48 @@
-﻿/*
+/*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:WP7Data.PushConsumerApp.ViewModel"
+      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:WP7Data.PushConsumerApp"
                                    x:Key="Locator" />
   </Application.Resources>
   
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
+
+  You can also use Blend to do all this with the tool's support.
+  See http://www.galasoft.ch/mvvm
 */
 
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
-using WP7Data.PushConsumerApp.Model;
 
 namespace WP7Data.PushConsumerApp.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
-    /// <para>
-    /// Use the <strong>mvvmlocatorproperty</strong> snippet to add ViewModels
-    /// to this locator.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm/getstarted
-    /// </para>
     /// </summary>
     public class ViewModelLocator
     {
-        static ViewModelLocator()
+        private static MainViewModel _main;
+
+        /// <summary>
+        /// Initializes a new instance of the ViewModelLocator class.
+        /// </summary>
+        public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+            ////if (ViewModelBase.IsInDesignModeStatic)
+            ////{
+            ////    // Create design time services and viewmodels
+            ////}
+            ////else
+            ////{
+            ////    // Create run time services and view models
+            ////}
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
-
-            SimpleIoc.Default.Register<MainViewModel>();
+            _main = new MainViewModel();
         }
 
         /// <summary>
-        /// Gets the Main property.
+        /// Gets the Main property which defines the main viewmodel.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
@@ -55,15 +51,13 @@ namespace WP7Data.PushConsumerApp.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return _main;
             }
         }
 
-        /// <summary>
-        /// Cleans up all the resources.
-        /// </summary>
         public static void Cleanup()
         {
+            
         }
     }
 }

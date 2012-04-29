@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using WP7Data.PushConsumerApp.Model;
+using GalaSoft.MvvmLight;
 
 namespace WP7Data.PushConsumerApp.ViewModel
 {
@@ -9,67 +8,27 @@ namespace WP7Data.PushConsumerApp.ViewModel
     /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
     /// </para>
     /// <para>
-    /// See http://www.galasoft.ch/mvvm/getstarted
+    /// You can also use Blend to data bind with the tool's support.
+    /// </para>
+    /// <para>
+    /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataService _dataService;
-
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
-        {
-            get
-            {
-                return _welcomeTitle;
-            }
-
-            set
-            {
-                if (_welcomeTitle == value)
-                {
-                    return;
-                }
-
-                _welcomeTitle = value;
-                RaisePropertyChanged(WelcomeTitlePropertyName);
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel()
         {
-            _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    WelcomeTitle = item.Title;
-                });
+            ////if (IsInDesignMode)
+            ////{
+            ////    // Code runs in Blend --> create design time data.
+            ////}
+            ////else
+            ////{
+            ////    // Code runs "for real"
+            ////}
         }
-
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
-
-        ////    base.Cleanup();
-        ////}
     }
 }
