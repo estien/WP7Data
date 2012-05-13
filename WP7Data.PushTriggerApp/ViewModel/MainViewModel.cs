@@ -1,4 +1,7 @@
+using System;
+using System.Windows;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace WP7Data.Push.TriggerApp.ViewModel
 {
@@ -16,6 +19,8 @@ namespace WP7Data.Push.TriggerApp.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        public RelayCommand<string> SendMessageRelayCommand { get; private set; }  
+        
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -29,6 +34,14 @@ namespace WP7Data.Push.TriggerApp.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+        
+            SendMessageRelayCommand = new RelayCommand<string>(param => SendMessageToService(param));
+        
+        }
+
+        private void SendMessageToService(string message)
+        {
+            MessageBox.Show("Thank you sir. Your message was: " + Environment.NewLine + Environment.NewLine + message);
         }
     }
 }
