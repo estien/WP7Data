@@ -9,7 +9,7 @@
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://localhost:57916/PushService.svc" binding="basicHttpBinding"
+            <endpoint address="http://wp7pushservice/PushService.svc" binding="basicHttpBinding"
                 bindingConfiguration="BasicHttpBinding_IPushService" contract="PushService.IPushService"
                 name="BasicHttpBinding_IPushService" />
         </client>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Notification;
 using WP7Data.Push.ConsumerApp.PushService;
 
 
@@ -32,26 +33,78 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
     public class MainViewModel : ViewModelBase
     {
 
+        #region Members
+
         public string PageName
         {
             get { return "hello Eirik"; }
         }
+
+        private HttpNotificationChannel _pushChannel;
+        private readonly PushServiceClient _serviceClient;
+        private readonly Guid _deviceGuid;
+
+        #endregion
+
+
+
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
         {
-            var client = new PushServiceClient();
+            // Load or create the device's guid that will identify the current device and application installation to the MS push service and our web service
+            _deviceGuid = Guid.NewGuid();
 
-            client.GetDataCompleted += (object sender, GetDataCompletedEventArgs args) =>
-                                           {
-                                               Debug.WriteLine(args.Result.ToString());
+            // init push channel and webservice
+            _serviceClient = new PushServiceClient();
+            InitPushChannel();
 
-                                           };
+        }
 
-            client.GetDataAsync(1337);
+        private void InitPushChannel()
+        {
+            _pushChannel = HttpNotificationChannel.Find("channel");
+            if (_pushChannel == null)
+            {
+                _pushChannel = new HttpNotificationChannel("channel");
+                BindChannelEvents();
+                _pushChannel.Open();
+            }
+            else
+            {
+                BindChannelEvents();
+                _serviceClient.SubscripePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+            }
+        }
 
-            client.CloseAsync();
+        private void BindChannelEvents()
+        {
+            //if error, print onscreen
+            _pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(myPushChannel_ErrorOccurred);
+
+            //ChannelUriUpdated fires when channel is first created or the channel URI changes 
+            _pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(myPushChannel_ChannelUriUpdated);
+
+            //Handle raw push notifications, which are received only while app is running.
+            _pushChannel.HttpNotificationReceived += new EventHandler<HttpNotificationEventArgs>(myPushChannel_HttpNotificationReceived);
+        }
+
+        private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        //ChannelUriUpdated fires when channel is first created or the channel URI changes 
+        private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
+        {
+            _serviceClient.SubscripePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+        }
+
+        private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
