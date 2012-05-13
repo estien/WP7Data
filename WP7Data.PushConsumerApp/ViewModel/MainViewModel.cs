@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Threading;
+using Coding4Fun.Phone.Controls;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -47,6 +49,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         private readonly PushRegistrationClient _serviceClient;
         private readonly ISHelper _storageHelper;
         private readonly SubscriptionInfo _subscriptionInfo;
+        private readonly Dispatcher _dispatcher;
 
         #endregion
 
@@ -59,21 +62,28 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         public MainViewModel()
         {
             _storageHelper = new ISHelper();
-            // Load or create the device's guid that will identify the current device and application installation to the MS push service and our web service
-            
+            _dispatcher = Deployment.Current.Dispatcher;
+            _serviceClient = new PushRegistrationClient();
+
+            // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
             if(_storageHelper.SubscriptionInfoExists())
                 _subscriptionInfo = _storageHelper.GetSubscriptionInfo();
             else
             {
-                
+                _subscriptionInfo = new SubscriptionInfo
+                                        {
+                                            Guid = Guid.NewGuid(),
+                                            Device = "TBD", //TODO Find programmatically
+                                            Nick = "NiceNick" //TODO Allow user to choose nick
+                                        };
+                _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
             }
 
-            // init push channel and webservice
-            _serviceClient = new PushRegistrationClient();
+            // init push channel
             InitPushChannel();
 
         }
-
+        
         private void InitPushChannel()
         {
             _pushChannel = HttpNotificationChannel.Find("channel");
@@ -109,9 +119,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         private void serviceClient_SubscribePhoneCompleted(object sender, SubscribePhoneCompletedEventArgs subscribePhoneCompletedEventArgs)
         {
             int position = subscribePhoneCompletedEventArgs.Result;
-
-            var dispatcher = Deployment.Current.Dispatcher;
-            dispatcher.BeginInvoke(() => MessageBox.Show("Thank you sir.  You subscribed as number " + position));
+            _dispatcher.BeginInvoke(() => MessageBox.Show("Thank you sir.  You subscribed as number " + position));
         }
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
@@ -122,6 +130,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
         private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
+            _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
+            _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
             _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
 
