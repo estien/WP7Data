@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using WP7Data.Push.Service.Model;
 
 namespace WP7Data.Push.Service.Interfaces
 {
@@ -8,7 +9,7 @@ namespace WP7Data.Push.Service.Interfaces
     {
 
         [OperationContract]
-        int SubscribePhone(Guid deviceId, string channelURI);
+        int SubscribePhone(Subscriber subscriber);
 
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using GalaSoft.MvvmLight;
 using System;
@@ -41,8 +42,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         }
 
         private HttpNotificationChannel _pushChannel;
-        private readonly PushServiceClient _serviceClient;
-        private readonly Guid _deviceGuid;
+        private readonly PushRegistrationClient _serviceClient;
+        private readonly Subscriber _subscriber;
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _deviceGuid = Guid.NewGuid();
 
             // init push channel and webservice
-            _serviceClient = new PushServiceClient();
+            _serviceClient = new PushRegistrationClient();
             InitPushChannel();
 
         }
@@ -75,7 +76,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             else
             {
                 BindChannelEvents();
-                _serviceClient.SubscripePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+                _serviceClient.SubscribePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
             }
         }
 
@@ -89,6 +90,18 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
             //Handle raw push notifications, which are received only while app is running.
             _pushChannel.HttpNotificationReceived += new EventHandler<HttpNotificationEventArgs>(myPushChannel_HttpNotificationReceived);
+
+            //On successful subscription
+            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
+        }
+
+
+        private void serviceClient_SubscribePhoneCompleted(object sender, SubscribePhoneCompletedEventArgs subscribePhoneCompletedEventArgs)
+        {
+            int position = subscribePhoneCompletedEventArgs.Result;
+
+            var dispatcher = Deployment.Current.Dispatcher;
+            dispatcher.BeginInvoke(() => MessageBox.Show("Thank you sir.  You subscribed as number " + position));
         }
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
@@ -99,7 +112,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
         private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
-            _serviceClient.SubscripePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+            _serviceClient.SubscribePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
         }
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)

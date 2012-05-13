@@ -20,7 +20,7 @@ namespace WP7Data.Push.Service
              }
         }
 
-        public int SubscribePhone(Guid deviceId, string channelURI)
+        public int SubscribePhone(Subscriber subscriber)
         {
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
@@ -31,15 +31,7 @@ namespace WP7Data.Push.Service
 
             var store = new ObjectStore();
             int position = 1;
-
-            var subscriber = new Subscriber
-                                 {
-                                     ChannelURI = channelURI,
-                                     Guid = deviceId,
-                                     Created = DateTime.Now,
-                                     Device = "devicetype",
-                                     Nick = "Hello Eirik"
-                                 };
+            subscriber.Created = DateTime.Now;
 
             if(!store.IsSubscribed(subscriber))
             {

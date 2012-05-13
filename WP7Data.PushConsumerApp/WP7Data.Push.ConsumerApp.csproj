@@ -104,27 +104,21 @@
     <None Include="Properties\WMAppManifest.xml" />
     <None Include="Service References\PushService\configuration91.svcinfo" />
     <None Include="Service References\PushService\configuration.svcinfo" />
-    <None Include="Service References\PushService\PushService1.wsdl" />
-    <None Include="Service References\PushService\PushService3.xsd">
+    <None Include="Service References\PushService\PushService.wsdl" />
+    <None Include="Service References\PushService\PushService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PushService\PushService31.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\PushService\PushService32.xsd">
+    <None Include="Service References\PushService\PushService1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\PushService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\PushService\PushService1.disco" />
+    <None Include="Service References\PushService\PushService.disco" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Service References\PushService\WP7Data.Push.ConsumerApp.PushService.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.jpg">
