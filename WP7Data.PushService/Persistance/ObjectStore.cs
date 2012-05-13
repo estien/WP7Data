@@ -12,8 +12,6 @@ namespace WP7Data.Push.Service.Persistance
         private const string SubscribersKey = "subscribers";
         private readonly MongoDatabase _database;
         
-
-
         public ObjectStore()
         {
             var connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
@@ -29,28 +27,20 @@ namespace WP7Data.Push.Service.Persistance
 
         public void AddSubscriber(Subscriber subscriber)
         {
-
-            
-
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
-
-            coll.Insert(subscriber);
-
-            var hekki = ";";
-
+            coll.Save(subscriber);
         }
 
         public Subscriber GetSubscriber(Guid guid)
         {
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
-
-            var query = new QueryDocument("Guid", guid.ToString());
+            var query = new QueryDocument("Guid", guid);
             var subscriber = coll.FindOne(query);
 
             return subscriber;
         }
 
-        public List<Subscriber> GetSubscribes()
+        public List<Subscriber> GetSubscribers()
         {
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
             var subscribers = coll.FindAll();
