@@ -26,17 +26,7 @@ namespace WP7Data.Push.TriggerApp.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
-        
-            SendMessageRelayCommand = new RelayCommand<string>(param => SendMessageToService(param));
-        
+            SendMessageRelayCommand = new RelayCommand<string>(param => SendMessageToService(param));        
         }
 
         private void SendMessageToService(string message)
