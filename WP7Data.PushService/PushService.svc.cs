@@ -9,7 +9,7 @@ namespace WP7Data.Push.Service
 {
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
-    public class PushService : IPushService
+    public class PushService : IPushRegistration, IPushProvider
     {
 
         private static class OutputWindow
@@ -20,7 +20,7 @@ namespace WP7Data.Push.Service
              }
         }
 
-        public void SubscripePhone(Guid deviceId, string channelURI)
+        public int SubscribePhone(Guid deviceId, string channelURI)
         {
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
@@ -30,6 +30,7 @@ namespace WP7Data.Push.Service
             #endregion
 
             var store = new ObjectStore();
+            int position = 1;
 
             var subscriber = new Subscriber
                                  {
@@ -40,13 +41,16 @@ namespace WP7Data.Push.Service
                                      Nick = "Hello Eirik"
                                  };
 
-            store.AddSubscriber(subscriber);
+            if(!store.IsSubscribed(subscriber))
+            {
+                position = store.AddSubscriber(subscriber);
+            }
+            return position;
+        }
 
-            var storedSubscriber = store.GetSubscriber(deviceId);
-
-            var subscribers = store.GetSubscribers();
-
-            
+        public void SendToastMessageToAllUsers(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

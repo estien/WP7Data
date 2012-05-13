@@ -25,10 +25,11 @@ namespace WP7Data.Push.Service.Persistance
             }
         }
 
-        public void AddSubscriber(Subscriber subscriber)
+        public int AddSubscriber(Subscriber subscriber)
         {
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
             coll.Save(subscriber);
+            return (int) coll.Count();
         }
 
         public Subscriber GetSubscriber(Guid guid)
@@ -46,6 +47,12 @@ namespace WP7Data.Push.Service.Persistance
             var subscribers = coll.FindAll();
 
             return subscribers.ToList();
+        }
+
+        public bool IsSubscribed(Subscriber subscriber)
+        {
+            var subscriberInStore = GetSubscriber(subscriber.Guid);
+            return subscriberInStore != null;
         }
     }
 }

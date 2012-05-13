@@ -4,11 +4,11 @@ using System.ServiceModel;
 namespace WP7Data.Push.Service.Interfaces
 {
     [ServiceContract]
-    public interface IPushService
+    public interface IPushRegistration
     {
 
         [OperationContract]
-        void SubscripePhone(Guid deviceId, string channelURI);
+        int SubscribePhone(Guid deviceId, string channelURI);
 
     }
 }
