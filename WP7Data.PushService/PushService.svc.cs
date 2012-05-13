@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using WP7Data.Push.Service.Interfaces;
+using WP7Data.Push.Service.Model;
+using WP7Data.Push.Service.Persistance;
 
 namespace WP7Data.Push.Service
 {
@@ -39,7 +41,24 @@ namespace WP7Data.Push.Service
 
         public void SubscripePhone(Guid deviceId, string channelURI)
         {
+            var store = new ObjectStore();
 
+
+            var subscriber = new Subscriber
+                                 {
+                                     ChannelURI = channelURI,
+                                     Guid = deviceId,
+                                     Created = DateTime.Now,
+                                     Device = "devicetype",
+                                     Nick = "Hello Eirik"
+                                     
+                                 };
+
+            store.AddSubscriber(subscriber);
+
+            var storedSubscriber = store.GetSubscriber(deviceId);
+
+            var subscribers = store.GetSubscribes();
 
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
