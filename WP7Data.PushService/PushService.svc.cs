@@ -20,12 +20,14 @@ namespace WP7Data.Push.Service
              }
         }
 
-        public int SubscribePhone(Subscriber subscriber)
+        public int SubscribePhone(Guid guid, string channelURI, string nick, string device)
         {
+            var subscriber = new Subscriber {ChannelURI = channelURI, Guid = guid, Device = device, Nick = nick};
+
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", deviceId.ToString(), channelURI));
+                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", subscriber.Guid.ToString(), subscriber.ChannelURI));
             }
             #endregion
 

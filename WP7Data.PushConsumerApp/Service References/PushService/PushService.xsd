@@ -4,8 +4,10 @@
   <xs:element name="SubscribePhone">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="deviceId" type="q1:guid" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="guid" type="q1:guid" />
         <xs:element minOccurs="0" name="channelURI" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nick" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="device" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -14,6 +14,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Notification;
+using WP7Data.Push.ConsumerApp.Model;
+using WP7Data.Push.ConsumerApp.Persistance;
 using WP7Data.Push.ConsumerApp.PushService;
 
 
@@ -43,7 +45,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private HttpNotificationChannel _pushChannel;
         private readonly PushRegistrationClient _serviceClient;
-        private readonly Subscriber _subscriber;
+        private readonly ISHelper _storageHelper;
+        private readonly SubscriptionInfo _subscriptionInfo;
 
         #endregion
 
@@ -55,8 +58,15 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            _storageHelper = new ISHelper();
             // Load or create the device's guid that will identify the current device and application installation to the MS push service and our web service
-            _deviceGuid = Guid.NewGuid();
+            
+            if(_storageHelper.SubscriptionInfoExists())
+                _subscriptionInfo = _storageHelper.GetSubscriptionInfo();
+            else
+            {
+                
+            }
 
             // init push channel and webservice
             _serviceClient = new PushRegistrationClient();
@@ -76,7 +86,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             else
             {
                 BindChannelEvents();
-                _serviceClient.SubscribePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+                _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
             }
         }
 
@@ -112,7 +122,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
         private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
-            _serviceClient.SubscribePhoneAsync(_deviceGuid, _pushChannel.ChannelUri.ToString());
+            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
@@ -120,4 +130,5 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             throw new NotImplementedException();
         }
     }
+
 }

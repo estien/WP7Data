@@ -2,7 +2,7 @@
 
 namespace WP7Data.Push.ConsumerApp.Model
 {
-    public class SubscribtionInfo
+    public class SubscriptionInfo
     {
         public Guid Guid { get; set; }
         public string ChannelURI { get; set; }

@@ -23,7 +23,7 @@ namespace WP7Data.Push.ConsumerApp.Persistance
             return null;
         }
 
-        private bool SubscriptionInfoExists()
+        public bool SubscriptionInfoExists()
         {
             return _storage.Contains("info");
         }
