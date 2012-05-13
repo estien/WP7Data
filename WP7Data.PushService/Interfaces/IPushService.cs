@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 
 namespace WP7Data.Push.Service.Interfaces
@@ -8,7 +9,7 @@ namespace WP7Data.Push.Service.Interfaces
     public interface IPushService
     {
 
-        #region Samples
+        #region Methods samples
         /* Samples of both objects and strings that can be returned from the service */
 
         [OperationContract]
@@ -20,10 +21,16 @@ namespace WP7Data.Push.Service.Interfaces
         
         #endregion
 
-        // TODO: Add your service operations here
+
+
+        [OperationContract]
+        void SubscripePhone(Guid deviceId, string channelURI);
+
+
     }
 
 
+    #region Data classes samples
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
     public class CompositeType
@@ -45,4 +52,5 @@ namespace WP7Data.Push.Service.Interfaces
             set { stringValue = value; }
         }
     }
+    #endregion  
 }

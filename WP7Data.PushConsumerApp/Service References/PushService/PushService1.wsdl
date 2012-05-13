@@ -19,6 +19,12 @@
   <wsdl:message name="IPushService_GetDataUsingDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
   </wsdl:message>
+  <wsdl:message name="IPushService_SubscripePhone_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscripePhone" />
+  </wsdl:message>
+  <wsdl:message name="IPushService_SubscripePhone_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscripePhoneResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPushService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushService/GetData" message="tns:IPushService_GetData_InputMessage" />
@@ -27,6 +33,10 @@
     <wsdl:operation name="GetDataUsingDataContract">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushService/GetDataUsingDataContract" message="tns:IPushService_GetDataUsingDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushService/GetDataUsingDataContractResponse" message="tns:IPushService_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubscripePhone">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPushService/SubscripePhone" message="tns:IPushService_SubscripePhone_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPushService/SubscripePhoneResponse" message="tns:IPushService_SubscripePhone_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPushService" type="tns:IPushService">
@@ -42,6 +52,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDataUsingDataContract">
       <soap:operation soapAction="http://tempuri.org/IPushService/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscripePhone">
+      <soap:operation soapAction="http://tempuri.org/IPushService/SubscripePhone" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

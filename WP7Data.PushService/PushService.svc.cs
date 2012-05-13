@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Web;
-using System.Text;
 using WP7Data.Push.Service.Interfaces;
 
 namespace WP7Data.Push.Service
@@ -15,6 +10,14 @@ namespace WP7Data.Push.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class PushService : IPushService
     {
+
+        private static class OutputWindow
+        {
+             public static void Show(string value)
+             {
+                 System.Diagnostics.Debug.WriteLine(value);
+             }
+        }
      
         public string GetData(int value)
         {
@@ -34,5 +37,16 @@ namespace WP7Data.Push.Service
             return composite;
         }
 
+        public void SubscripePhone(Guid deviceId, string channelURI)
+        {
+
+
+            #region If in developer mode
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", deviceId.ToString(), channelURI));
+            }
+            #endregion
+        }
     }
 }
