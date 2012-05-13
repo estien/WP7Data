@@ -16,7 +16,7 @@ namespace WP7Data.Push.Service.Persistance
 
         public ObjectStore()
         {
-            var connectionString = "mongodb://localhost/?safe=true";
+            var connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
             var server = MongoServer.Create(connectionString);
             _database = server.GetDatabase("test");
 
