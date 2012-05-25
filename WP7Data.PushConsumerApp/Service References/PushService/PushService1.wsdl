@@ -24,6 +24,12 @@
   <wsdl:message name="IPushProvider_SendToastMessageToAllUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendToastMessageToAllUsersResponse" />
   </wsdl:message>
+  <wsdl:message name="IPushProvider_SendRawMessageToAllUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendRawMessageToAllUsers" />
+  </wsdl:message>
+  <wsdl:message name="IPushProvider_SendRawMessageToAllUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendRawMessageToAllUsersResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPushRegistration">
     <wsdl:operation name="IsPhoneSubscribed">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/IsPhoneSubscribed" message="tns:IPushRegistration_IsPhoneSubscribed_InputMessage" />
@@ -38,6 +44,10 @@
     <wsdl:operation name="SendToastMessageToAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushProvider/SendToastMessageToAllUsers" message="tns:IPushProvider_SendToastMessageToAllUsers_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushProvider/SendToastMessageToAllUsersResponse" message="tns:IPushProvider_SendToastMessageToAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendRawMessageToAllUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPushProvider/SendRawMessageToAllUsers" message="tns:IPushProvider_SendRawMessageToAllUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPushProvider/SendRawMessageToAllUsersResponse" message="tns:IPushProvider_SendRawMessageToAllUsers_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPushRegistration" type="tns:IPushRegistration">
@@ -65,6 +75,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="SendToastMessageToAllUsers">
       <soap:operation soapAction="http://tempuri.org/IPushProvider/SendToastMessageToAllUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendRawMessageToAllUsers">
+      <soap:operation soapAction="http://tempuri.org/IPushProvider/SendRawMessageToAllUsers" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

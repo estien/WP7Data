@@ -79,8 +79,10 @@ namespace WP7Data.Push.Service
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = WebRequestMethods.Http.Post;
+            request.Accept = "text/xml";
             request.ContentType = "text/xml";
             request.ContentLength = message.Length;
+            request.Credentials = CredentialCache.DefaultCredentials;
 
             request.Headers.Add("X-MessageID", Guid.NewGuid().ToString());
 
@@ -106,7 +108,7 @@ namespace WP7Data.Push.Service
             try
             {
                 var response = (HttpWebResponse)request.GetResponse();
-
+                
                 var notificationStatus = response.Headers["X-NotificationStatus"];
                 var subscriptionStatus = response.Headers["X-SubscriptionStatus"];
                 var deviceConnectionStatus = response.Headers["X-DeviceConnectionStatus"];
