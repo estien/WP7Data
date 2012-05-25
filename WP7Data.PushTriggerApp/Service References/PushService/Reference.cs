@@ -364,6 +364,11 @@ namespace WP7Data.Push.TriggerApp.PushService {
         System.IAsyncResult BeginSendToastMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState);
         
         void EndSendToastMessageToAllUsers(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IPushProvider/SendRawMessageToAllUsers", ReplyAction="http://tempuri.org/IPushProvider/SendRawMessageToAllUsersResponse")]
+        System.IAsyncResult BeginSendRawMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState);
+        
+        void EndSendRawMessageToAllUsers(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -379,6 +384,12 @@ namespace WP7Data.Push.TriggerApp.PushService {
         private EndOperationDelegate onEndSendToastMessageToAllUsersDelegate;
         
         private System.Threading.SendOrPostCallback onSendToastMessageToAllUsersCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSendRawMessageToAllUsersDelegate;
+        
+        private EndOperationDelegate onEndSendRawMessageToAllUsersDelegate;
+        
+        private System.Threading.SendOrPostCallback onSendRawMessageToAllUsersCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -435,6 +446,8 @@ namespace WP7Data.Push.TriggerApp.PushService {
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SendToastMessageToAllUsersCompleted;
         
+        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SendRawMessageToAllUsersCompleted;
+        
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
@@ -482,6 +495,51 @@ namespace WP7Data.Push.TriggerApp.PushService {
             }
             base.InvokeAsync(this.onBeginSendToastMessageToAllUsersDelegate, new object[] {
                         message}, this.onEndSendToastMessageToAllUsersDelegate, this.onSendToastMessageToAllUsersCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult WP7Data.Push.TriggerApp.PushService.IPushProvider.BeginSendRawMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSendRawMessageToAllUsers(message, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        void WP7Data.Push.TriggerApp.PushService.IPushProvider.EndSendRawMessageToAllUsers(System.IAsyncResult result) {
+            base.Channel.EndSendRawMessageToAllUsers(result);
+        }
+        
+        private System.IAsyncResult OnBeginSendRawMessageToAllUsers(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            string message = ((string)(inValues[0]));
+            return ((WP7Data.Push.TriggerApp.PushService.IPushProvider)(this)).BeginSendRawMessageToAllUsers(message, callback, asyncState);
+        }
+        
+        private object[] OnEndSendRawMessageToAllUsers(System.IAsyncResult result) {
+            ((WP7Data.Push.TriggerApp.PushService.IPushProvider)(this)).EndSendRawMessageToAllUsers(result);
+            return null;
+        }
+        
+        private void OnSendRawMessageToAllUsersCompleted(object state) {
+            if ((this.SendRawMessageToAllUsersCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SendRawMessageToAllUsersCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SendRawMessageToAllUsersAsync(string message) {
+            this.SendRawMessageToAllUsersAsync(message, null);
+        }
+        
+        public void SendRawMessageToAllUsersAsync(string message, object userState) {
+            if ((this.onBeginSendRawMessageToAllUsersDelegate == null)) {
+                this.onBeginSendRawMessageToAllUsersDelegate = new BeginOperationDelegate(this.OnBeginSendRawMessageToAllUsers);
+            }
+            if ((this.onEndSendRawMessageToAllUsersDelegate == null)) {
+                this.onEndSendRawMessageToAllUsersDelegate = new EndOperationDelegate(this.OnEndSendRawMessageToAllUsers);
+            }
+            if ((this.onSendRawMessageToAllUsersCompletedDelegate == null)) {
+                this.onSendRawMessageToAllUsersCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSendRawMessageToAllUsersCompleted);
+            }
+            base.InvokeAsync(this.onBeginSendRawMessageToAllUsersDelegate, new object[] {
+                        message}, this.onEndSendRawMessageToAllUsersDelegate, this.onSendRawMessageToAllUsersCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -570,6 +628,18 @@ namespace WP7Data.Push.TriggerApp.PushService {
             public void EndSendToastMessageToAllUsers(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 base.EndInvoke("SendToastMessageToAllUsers", _args, result);
+            }
+            
+            public System.IAsyncResult BeginSendRawMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = message;
+                System.IAsyncResult _result = base.BeginInvoke("SendRawMessageToAllUsers", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public void EndSendRawMessageToAllUsers(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                base.EndInvoke("SendRawMessageToAllUsers", _args, result);
             }
         }
     }

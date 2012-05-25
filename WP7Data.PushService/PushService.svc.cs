@@ -57,24 +57,22 @@ namespace WP7Data.Push.Service
         {           
             var store = new ObjectStore();
             var subscribers = store.GetSubscribers();
-            
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
             foreach (var subscriber in subscribers)
-            {
-                var messageBytes = Encoding.UTF8.GetBytes(message);
-                SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute),  messageBytes, Notification.NotificationType.Toast);       
-            }
+                SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute), messageBytes,
+                            Notification.NotificationType.Toast);
         }
 
         public void SendRawMessageToAllUsers(string message)
         {
             var store = new ObjectStore();
             var subscribers = store.GetSubscribers();
+            var messageBytes = Encoding.UTF8.GetBytes(message);
 
             foreach (var subscriber in subscribers)
-            {
-                var messageBytes = Encoding.UTF8.GetBytes(message);
-                SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute), messageBytes, Notification.NotificationType.Raw);
-            }
+                SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute), messageBytes,
+                            Notification.NotificationType.Raw);
         }
 
         private static void SendMessage(Uri uri, byte[] message, Notification.NotificationType notificationType)
