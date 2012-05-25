@@ -90,13 +90,13 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         private void BindChannelEvents()
         {
             //if error, print onscreen
-            _pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(myPushChannel_ErrorOccurred);
+            _pushChannel.ErrorOccurred += myPushChannel_ErrorOccurred;
 
             //ChannelUriUpdated fires when channel is first created or the channel URI changes 
-            _pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(myPushChannel_ChannelUriUpdated);
+            _pushChannel.ChannelUriUpdated += myPushChannel_ChannelUriUpdated;
 
             //Handle raw push notifications, which are received only while app is running.
-            _pushChannel.HttpNotificationReceived += new EventHandler<HttpNotificationEventArgs>(myPushChannel_HttpNotificationReceived);
+            _pushChannel.HttpNotificationReceived += myPushChannel_HttpNotificationReceived;
 
             //On successful subscription
             _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
