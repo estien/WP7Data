@@ -67,9 +67,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
             }
 
-            // init push channel
             InitPushChannel();
-
         }
         
         private void InitPushChannel()

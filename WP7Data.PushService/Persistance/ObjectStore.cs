@@ -54,5 +54,11 @@ namespace WP7Data.Push.Service.Persistance
             var subscriberInStore = GetSubscriber(subscriber.Guid);
             return subscriberInStore != null;
         }
+
+        public int GetSubscriberPosition(Subscriber subscriber)
+        {
+            var subscribers = GetSubscribers();
+            return subscribers.FindIndex(y => y.Guid == subscriber.Guid) + 1;
+        }
     }
 }
