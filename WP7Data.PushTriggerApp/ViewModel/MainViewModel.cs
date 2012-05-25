@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using WP7Data.Push.TriggerApp.PushService;
 
 namespace WP7Data.Push.TriggerApp.ViewModel
 {
@@ -19,19 +20,21 @@ namespace WP7Data.Push.TriggerApp.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public RelayCommand<string> SendMessageRelayCommand { get; private set; }  
-        
+        public RelayCommand<string> SendMessageRelayCommand { get; private set; }
+        private PushService.PushProviderClient _pushClient;
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
         {
-            SendMessageRelayCommand = new RelayCommand<string>(param => SendMessageToService(param));        
+            SendMessageRelayCommand = new RelayCommand<string>(param => SendMessageToService(param));   
+            _pushClient = new PushProviderClient();
         }
 
         private void SendMessageToService(string message)
         {
-            MessageBox.Show("Thank you sir. Your message was: " + Environment.NewLine + Environment.NewLine + message);
+            _pushClient.SendToastMessageToAllUsersAsync(message);
         }
     }
 }
