@@ -34,7 +34,7 @@ namespace WP7Data.Push.TriggerApp.ViewModel
 
         private void SendMessageToService(string message)
         {
-            _pushClient.SendToastMessageToAllUsersAsync(message);
+            _pushClient.SendRawMessageToAllUsersAsync(message);
         }
     }
 }
