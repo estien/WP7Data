@@ -38,6 +38,7 @@ namespace WP7Data.Push.ConsumerApp.Persistance
         private void AddSubscriptionInfo(SubscriptionInfo info)
         {
             _storage.Add("info", info);
+            _storage.Save();
         }
     }
 }
