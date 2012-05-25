@@ -82,7 +82,6 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             else
             {
                 BindChannelEvents();
-                _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
             }
         }
 
@@ -96,9 +95,6 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
             //Handle raw push notifications, which are received only while app is running.
             _pushChannel.HttpNotificationReceived += myPushChannel_HttpNotificationReceived;
-
-            //On successful subscription
-            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
         }
 
 
@@ -118,6 +114,9 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         {
             _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
             _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
+
+            //On successful subscription
+            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
             _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
 

@@ -14,6 +14,7 @@ namespace WP7Data.Push.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class PushService : IPushRegistration, IPushProvider
     {
+        private ObjectStore _store;
 
         private static class OutputWindow
         {
@@ -21,6 +22,17 @@ namespace WP7Data.Push.Service
              {
                  System.Diagnostics.Debug.WriteLine(value);
              }
+        }
+
+        public PushService()
+        {
+            _store = new ObjectStore();
+        }
+
+        public int IsPhoneSubscribed(Guid guid, string channelURI)
+        {
+            var subscriber = new Subscriber { ChannelURI = channelURI, Guid = guid};
+            return _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : -1;
         }
 
         public int SubscribePhone(Guid guid, string channelURI, string nick, string device)
@@ -34,11 +46,10 @@ namespace WP7Data.Push.Service
             }
             #endregion
 
-            var store = new ObjectStore();
-            int position = 1;
+            
             subscriber.Created = DateTime.Now;
 
-            position = store.IsSubscribed(subscriber) ? store.GetSubscriberPosition(subscriber) : store.AddSubscriber(subscriber);
+            int position = _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : _store.AddSubscriber(subscriber);
             return position;
         }
 

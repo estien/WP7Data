@@ -8,6 +8,9 @@ namespace WP7Data.Push.Service.Interfaces
     {
 
         [OperationContract]
+        int IsPhoneSubscribed(Guid guid, string channelURI);
+
+        [OperationContract]
         int SubscribePhone(Guid guid, string channelURI, string nick, string device);
 
     }
