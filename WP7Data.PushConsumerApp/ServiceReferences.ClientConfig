@@ -13,12 +13,12 @@
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://wp7pushservice/PushService.svc" binding="basicHttpBinding"
-                bindingConfiguration="BasicHttpBinding_IPushRegistration"
+            <endpoint address="http://wp7pushservice.apphb.com/PushService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IPushRegistration"
                 contract="PushService.IPushRegistration" name="BasicHttpBinding_IPushRegistration" />
-            <endpoint address="http://wp7pushservice/PushService.svc" binding="basicHttpBinding"
-                bindingConfiguration="BasicHttpBinding_IPushProvider" contract="PushService.IPushProvider"
-                name="BasicHttpBinding_IPushProvider" />
+            <endpoint address="http://wp7pushservice.apphb.com/PushService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IPushProvider"
+                contract="PushService.IPushProvider" name="BasicHttpBinding_IPushProvider" />
         </client>
     </system.serviceModel>
 </configuration>

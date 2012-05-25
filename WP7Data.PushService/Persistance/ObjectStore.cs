@@ -16,7 +16,7 @@ namespace WP7Data.Push.Service.Persistance
         {
             var connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
             var server = MongoServer.Create(connectionString);
-            _database = server.GetDatabase("test");
+            _database = server.GetDatabase("appharbor_a6a88884-0e19-42c8-92ed-6ec23821b99d");
 
             var exists = _database.CollectionExists(SubscribersKey);
             if (!exists)
