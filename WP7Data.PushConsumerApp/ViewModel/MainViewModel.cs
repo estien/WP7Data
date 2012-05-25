@@ -2,6 +2,7 @@ using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using System;
 using System.Windows;
+using Microsoft.Phone.Info;
 using Microsoft.Phone.Notification;
 using WP7Data.Push.ConsumerApp.Model;
 using WP7Data.Push.ConsumerApp.Persistance;
@@ -60,7 +61,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 _subscriptionInfo = new SubscriptionInfo
                                         {
                                             Guid = Guid.NewGuid(),
-                                            Device = "TBD", //TODO Find programmatically
+                                            Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
                                             Nick = "NiceNick" //TODO Allow user to choose nick
                                         };
                 _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
