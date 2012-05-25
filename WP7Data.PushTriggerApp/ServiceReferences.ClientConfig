@@ -1,0 +1,24 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_IPushRegistration" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+                <binding name="BasicHttpBinding_IPushProvider" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://wp7pushservice.apphb.com/PushService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IPushRegistration"
+                contract="PushService.IPushRegistration" name="BasicHttpBinding_IPushRegistration" />
+            <endpoint address="http://wp7pushservice.apphb.com/PushService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IPushProvider"
+                contract="PushService.IPushProvider" name="BasicHttpBinding_IPushProvider" />
+        </client>
+    </system.serviceModel>
+</configuration>

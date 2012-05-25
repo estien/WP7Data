@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7206763e-6c9a-4053-be0f-eb3d72f3d003" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://wp7pushservice.apphb.com/PushService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PushService.disco" MetadataType="Disco" ID="4c66ccf8-c112-4f9b-9bad-806395a3e94b" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?disco" />
+    <MetadataFile FileName="PushService.xsd" MetadataType="Schema" ID="76d0ceba-c646-47d4-9c20-24d5b19adb93" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PushService.wsdl" MetadataType="Wsdl" ID="d51b45ef-5d17-46d7-bbd4-e778eee47c4f" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?wsdl" />
+    <MetadataFile FileName="PushService1.xsd" MetadataType="Schema" ID="d052a12a-a44d-4a87-9895-7eee0e9a2437" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
