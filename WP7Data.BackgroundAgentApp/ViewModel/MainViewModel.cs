@@ -42,7 +42,7 @@ namespace WP7Data.BackgroundAgentApp.ViewModel
         }
 
         public void StartPeriodicAgent()
-        {
+        { 
             // Variable for tracking enabled status of background agents for this app.
             agentsAreEnabled = true;
 
