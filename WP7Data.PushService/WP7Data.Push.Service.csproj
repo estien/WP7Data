@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IPushProvider.cs" />
+    <Compile Include="Model\Notification.cs" />
     <Compile Include="Model\Subscriber.cs" />
     <Compile Include="PushService.svc.cs">
       <DependentUpon>PushService.svc</DependentUpon>
