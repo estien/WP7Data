@@ -18,6 +18,11 @@ namespace WP7Data.Push.TriggerApp.PushService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PushService.IPushRegistration")]
     public interface IPushRegistration {
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IPushRegistration/IsPhoneSubscribed", ReplyAction="http://tempuri.org/IPushRegistration/IsPhoneSubscribedResponse")]
+        System.IAsyncResult BeginIsPhoneSubscribed(System.Guid guid, string channelURI, System.AsyncCallback callback, object asyncState);
+        
+        int EndIsPhoneSubscribed(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IPushRegistration/SubscribePhone", ReplyAction="http://tempuri.org/IPushRegistration/SubscribePhoneResponse")]
         System.IAsyncResult BeginSubscribePhone(System.Guid guid, string channelURI, string nick, string device, System.AsyncCallback callback, object asyncState);
         
@@ -26,6 +31,25 @@ namespace WP7Data.Push.TriggerApp.PushService {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IPushRegistrationChannel : WP7Data.Push.TriggerApp.PushService.IPushRegistration, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class IsPhoneSubscribedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public IsPhoneSubscribedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public int Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -50,6 +74,12 @@ namespace WP7Data.Push.TriggerApp.PushService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class PushRegistrationClient : System.ServiceModel.ClientBase<WP7Data.Push.TriggerApp.PushService.IPushRegistration>, WP7Data.Push.TriggerApp.PushService.IPushRegistration {
+        
+        private BeginOperationDelegate onBeginIsPhoneSubscribedDelegate;
+        
+        private EndOperationDelegate onEndIsPhoneSubscribedDelegate;
+        
+        private System.Threading.SendOrPostCallback onIsPhoneSubscribedCompletedDelegate;
         
         private BeginOperationDelegate onBeginSubscribePhoneDelegate;
         
@@ -110,11 +140,61 @@ namespace WP7Data.Push.TriggerApp.PushService {
             }
         }
         
+        public event System.EventHandler<IsPhoneSubscribedCompletedEventArgs> IsPhoneSubscribedCompleted;
+        
         public event System.EventHandler<SubscribePhoneCompletedEventArgs> SubscribePhoneCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult WP7Data.Push.TriggerApp.PushService.IPushRegistration.BeginIsPhoneSubscribed(System.Guid guid, string channelURI, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginIsPhoneSubscribed(guid, channelURI, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        int WP7Data.Push.TriggerApp.PushService.IPushRegistration.EndIsPhoneSubscribed(System.IAsyncResult result) {
+            return base.Channel.EndIsPhoneSubscribed(result);
+        }
+        
+        private System.IAsyncResult OnBeginIsPhoneSubscribed(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            System.Guid guid = ((System.Guid)(inValues[0]));
+            string channelURI = ((string)(inValues[1]));
+            return ((WP7Data.Push.TriggerApp.PushService.IPushRegistration)(this)).BeginIsPhoneSubscribed(guid, channelURI, callback, asyncState);
+        }
+        
+        private object[] OnEndIsPhoneSubscribed(System.IAsyncResult result) {
+            int retVal = ((WP7Data.Push.TriggerApp.PushService.IPushRegistration)(this)).EndIsPhoneSubscribed(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnIsPhoneSubscribedCompleted(object state) {
+            if ((this.IsPhoneSubscribedCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.IsPhoneSubscribedCompleted(this, new IsPhoneSubscribedCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void IsPhoneSubscribedAsync(System.Guid guid, string channelURI) {
+            this.IsPhoneSubscribedAsync(guid, channelURI, null);
+        }
+        
+        public void IsPhoneSubscribedAsync(System.Guid guid, string channelURI, object userState) {
+            if ((this.onBeginIsPhoneSubscribedDelegate == null)) {
+                this.onBeginIsPhoneSubscribedDelegate = new BeginOperationDelegate(this.OnBeginIsPhoneSubscribed);
+            }
+            if ((this.onEndIsPhoneSubscribedDelegate == null)) {
+                this.onEndIsPhoneSubscribedDelegate = new EndOperationDelegate(this.OnEndIsPhoneSubscribed);
+            }
+            if ((this.onIsPhoneSubscribedCompletedDelegate == null)) {
+                this.onIsPhoneSubscribedCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnIsPhoneSubscribedCompleted);
+            }
+            base.InvokeAsync(this.onBeginIsPhoneSubscribedDelegate, new object[] {
+                        guid,
+                        channelURI}, this.onEndIsPhoneSubscribedDelegate, this.onIsPhoneSubscribedCompletedDelegate, userState);
+        }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult WP7Data.Push.TriggerApp.PushService.IPushRegistration.BeginSubscribePhone(System.Guid guid, string channelURI, string nick, string device, System.AsyncCallback callback, object asyncState) {
@@ -242,6 +322,20 @@ namespace WP7Data.Push.TriggerApp.PushService {
             
             public PushRegistrationClientChannel(System.ServiceModel.ClientBase<WP7Data.Push.TriggerApp.PushService.IPushRegistration> client) : 
                     base(client) {
+            }
+            
+            public System.IAsyncResult BeginIsPhoneSubscribed(System.Guid guid, string channelURI, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
+                _args[0] = guid;
+                _args[1] = channelURI;
+                System.IAsyncResult _result = base.BeginInvoke("IsPhoneSubscribed", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public int EndIsPhoneSubscribed(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                int _result = ((int)(base.EndInvoke("IsPhoneSubscribed", _args, result)));
+                return _result;
             }
             
             public System.IAsyncResult BeginSubscribePhone(System.Guid guid, string channelURI, string nick, string device, System.AsyncCallback callback, object asyncState) {

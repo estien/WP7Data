@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using System;
@@ -106,7 +107,9 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-            throw new NotImplementedException();
+            var reader = new StreamReader(e.Notification.Body);
+            var message = reader.ReadToEnd();
+            MessageBox.Show(message, "New notification", MessageBoxButton.OK);
         }
 
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
