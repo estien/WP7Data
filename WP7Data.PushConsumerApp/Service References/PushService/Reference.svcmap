@@ -20,13 +20,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://wp7pushservice/PushService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://wp7pushservice.apphb.com/PushService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="PushService.xsd" MetadataType="Schema" ID="403186cc-3863-4c68-95f6-657942faf746" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?xsd=xsd0" />
-    <MetadataFile FileName="PushService.wsdl" MetadataType="Wsdl" ID="bfdce24e-ca52-4a58-8396-a4ec6046ed28" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?wsdl" />
-    <MetadataFile FileName="PushService1.xsd" MetadataType="Schema" ID="4fe8d6bb-deb1-4bf9-b9c2-e24de17cc2a1" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?xsd=xsd1" />
-    <MetadataFile FileName="PushService.disco" MetadataType="Disco" ID="92c8b227-a1af-4f19-b675-c2980c3442cf" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?disco" />
+    <MetadataFile FileName="PushService1.disco" MetadataType="Disco" ID="c7b2c2cc-e027-47b3-9531-cb869a74dca2" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?disco" />
+    <MetadataFile FileName="PushService2.xsd" MetadataType="Schema" ID="b696736d-aeb3-40ba-a130-4935626c5339" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PushService1.wsdl" MetadataType="Wsdl" ID="f0b5e051-42ee-4800-9451-f492b96f0490" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?wsdl" />
+    <MetadataFile FileName="PushService21.xsd" MetadataType="Schema" ID="cb4ff09c-e7f8-4ae0-a1bb-6be9d66793d4" SourceId="1" SourceUrl="http://wp7pushservice.apphb.com/PushService.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

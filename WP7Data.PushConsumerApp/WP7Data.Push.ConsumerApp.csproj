@@ -106,18 +106,18 @@
     <None Include="Properties\WMAppManifest.xml" />
     <None Include="Service References\PushService\configuration91.svcinfo" />
     <None Include="Service References\PushService\configuration.svcinfo" />
-    <None Include="Service References\PushService\PushService.wsdl" />
-    <None Include="Service References\PushService\PushService.xsd">
+    <None Include="Service References\PushService\PushService1.wsdl" />
+    <None Include="Service References\PushService\PushService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PushService\PushService1.xsd">
+    <None Include="Service References\PushService\PushService21.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\PushService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\PushService\PushService.disco" />
+    <None Include="Service References\PushService\PushService1.disco" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
