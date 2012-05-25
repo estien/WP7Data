@@ -35,10 +35,7 @@ namespace WP7Data.Push.Service
             int position = 1;
             subscriber.Created = DateTime.Now;
 
-            if(!store.IsSubscribed(subscriber))
-            {
-                position = store.AddSubscriber(subscriber);
-            }
+            position = store.IsSubscribed(subscriber) ? store.GetSubscriberPosition(subscriber) : store.AddSubscriber(subscriber);
             return position;
         }
 
