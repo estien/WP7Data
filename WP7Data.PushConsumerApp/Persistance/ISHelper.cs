@@ -30,15 +30,25 @@ namespace WP7Data.Push.ConsumerApp.Persistance
 
         public void SaveSubscriptionInfo(SubscriptionInfo info)
         {
-            if(SubscriptionInfoExists())
-                _storage.Remove("info");
+            RemoveSubscriptionInfo();
             AddSubscriptionInfo(info);
+        }
+
+        private void RemoveSubscriptionInfo()
+        {
+            if (SubscriptionInfoExists())
+                _storage.Remove("info");
         }
 
         private void AddSubscriptionInfo(SubscriptionInfo info)
         {
             _storage.Add("info", info);
             _storage.Save();
+        }
+
+        public void DeleteSubscriptionInfo()
+        {
+            RemoveSubscriptionInfo();
         }
     }
 }

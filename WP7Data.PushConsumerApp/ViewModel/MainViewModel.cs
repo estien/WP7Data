@@ -1,7 +1,9 @@
+using System.Windows.Navigation;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using System;
 using System.Windows;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Notification;
 using WP7Data.Push.ConsumerApp.Model;
@@ -23,20 +25,32 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : WP7DataViewModelBase
     {
 
         #region Members
 
         public string PageName
         {
-            get { return "hello Eirik"; }
+            get { return "Wait for a msg"; }
+        }
+
+        private string _subscriptionStatus;
+        public string SubscriptionStatus { get { return _subscriptionStatus; }
+            set
+            {
+                if(_subscriptionStatus != value)
+                {
+                    _subscriptionStatus = value;
+                    RaisePropertyChanged("SubscriptionStatus");
+                }
+            } 
         }
 
         private HttpNotificationChannel _pushChannel;
         private readonly PushRegistrationClient _serviceClient;
         private readonly ISHelper _storageHelper;
-        private readonly SubscriptionInfo _subscriptionInfo;
+        private SubscriptionInfo _subscriptionInfo;
         private readonly Dispatcher _dispatcher;
 
         #endregion
@@ -52,24 +66,28 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _storageHelper = new ISHelper();
             _dispatcher = Deployment.Current.Dispatcher;
             _serviceClient = new PushRegistrationClient();
+        }
 
-            // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
-            if(_storageHelper.SubscriptionInfoExists())
+        public void Act()
+        {
+            SetSubscriptionInfo();
+            if (_subscriptionInfo != null)
+            {
+                InitPushChannel();
+            }
+        }
+
+        // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
+        private void SetSubscriptionInfo()
+        {
+            if (_storageHelper.SubscriptionInfoExists())
                 _subscriptionInfo = _storageHelper.GetSubscriptionInfo();
             else
             {
-                _subscriptionInfo = new SubscriptionInfo
-                                        {
-                                            Guid = Guid.NewGuid(),
-                                            Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
-                                            Nick = "NiceNick" //TODO Allow user to choose nick
-                                        };
-                _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
+                NavigateToRegistrationPage();
             }
-
-            InitPushChannel();
         }
-        
+
         private void InitPushChannel()
         {
             _pushChannel = HttpNotificationChannel.Find("channel");
@@ -80,9 +98,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 _pushChannel.Open();
             }
             else
-            {
                 BindChannelEvents();
-            }
         }
 
         private void BindChannelEvents()
@@ -106,7 +122,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-            throw new NotImplementedException();
+            _dispatcher.BeginInvoke(() => MessageBox.Show("Hello sir, you received: " + e.Notification.Body));
         }
 
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
@@ -115,14 +131,51 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
             _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
 
-            //On successful subscription
-            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
-            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
+            CheckIfPhoneIsRegisteredWithWS();
+        }
+
+        private void CheckIfPhoneIsRegisteredWithWS()
+        {
+            _serviceClient.IsPhoneSubscribedCompleted += serviceClient_IsPhoneSubscribedCompleted;
+            _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI);
+        }
+
+        private void serviceClient_IsPhoneSubscribedCompleted(object sender, IsPhoneSubscribedCompletedEventArgs e)
+        {
+            var subscribedPosition = e.Result;
+            if (subscribedPosition == -1)
+            {
+                if(string.IsNullOrWhiteSpace(_subscriptionInfo.ChannelURI))
+                {
+                    NavigateToRegistrationPage();
+                }
+                else
+                {
+                    _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
+                    _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);       
+                }
+            }
+            else
+            {
+                _dispatcher.BeginInvoke(
+                    () =>
+                    SubscriptionStatus = "Thanks Sir.\nYou are subscribed as number " + subscribedPosition);
+            }
+        }
+
+        private void NavigateToRegistrationPage()
+        {
+            Navigate("/RegistrationPage.xaml");
         }
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteCurrentSubscriptionInfo()
+        {
+            _storageHelper.DeleteSubscriptionInfo();
         }
     }
 }

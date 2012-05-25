@@ -23,6 +23,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
     public class ViewModelLocator
     {
         private static MainViewModel _main;
+        private static RegistrationViewModel _registration;
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -39,6 +40,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             ////}
 
             _main = new MainViewModel();
+            _registration = new RegistrationViewModel();
         }
 
         /// <summary>
@@ -52,6 +54,14 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             get
             {
                 return _main;
+            }
+        }
+
+        public RegistrationViewModel Registration
+        {
+            get
+            {
+                return _registration;
             }
         }
 
