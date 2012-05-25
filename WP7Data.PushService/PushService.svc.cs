@@ -2,13 +2,14 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using WP7Data.Push.Service.Interfaces;
+using WP7Data.Push.Service.Model;
+using WP7Data.Push.Service.Persistance;
 
 namespace WP7Data.Push.Service
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
-    public class PushService : IPushService
+    public class PushService : IPushRegistration, IPushProvider
     {
 
         private static class OutputWindow
@@ -18,35 +19,32 @@ namespace WP7Data.Push.Service
                  System.Diagnostics.Debug.WriteLine(value);
              }
         }
-     
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public int SubscribePhone(Guid guid, string channelURI, string nick, string device)
         {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
-
-        public void SubscripePhone(Guid deviceId, string channelURI)
-        {
-
+            var subscriber = new Subscriber {ChannelURI = channelURI, Guid = guid, Device = device, Nick = nick};
 
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", deviceId.ToString(), channelURI));
+                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", subscriber.Guid.ToString(), subscriber.ChannelURI));
             }
             #endregion
+
+            var store = new ObjectStore();
+            int position = 1;
+            subscriber.Created = DateTime.Now;
+
+            if(!store.IsSubscribed(subscriber))
+            {
+                position = store.AddSubscriber(subscriber);
+            }
+            return position;
+        }
+
+        public void SendToastMessageToAllUsers(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

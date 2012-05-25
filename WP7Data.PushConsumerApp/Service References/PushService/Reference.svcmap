@@ -20,14 +20,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:57916/PushService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://wp7pushservice/PushService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="PushService1.wsdl" MetadataType="Wsdl" ID="f422ecd6-a805-4484-8f15-08fcc9a27aa0" SourceId="1" SourceUrl="http://localhost:57916/PushService.svc?wsdl" />
-    <MetadataFile FileName="PushService3.xsd" MetadataType="Schema" ID="5dd9c4a5-6ee0-44b9-b461-a74be2a69ac3" SourceId="1" SourceUrl="http://localhost:57916/PushService.svc?xsd=xsd1" />
-    <MetadataFile FileName="PushService31.xsd" MetadataType="Schema" ID="9ed1adbc-7d71-458f-8c7b-b6c3bf67d194" SourceId="1" SourceUrl="http://localhost:57916/PushService.svc?xsd=xsd2" />
-    <MetadataFile FileName="PushService32.xsd" MetadataType="Schema" ID="90c249df-ab22-46d8-a8a7-8ad4a6e248d7" SourceId="1" SourceUrl="http://localhost:57916/PushService.svc?xsd=xsd0" />
-    <MetadataFile FileName="PushService1.disco" MetadataType="Disco" ID="5704a2b3-b7ec-4652-9ef0-649c2e0ed8e0" SourceId="1" SourceUrl="http://localhost:57916/PushService.svc?disco" />
+    <MetadataFile FileName="PushService.xsd" MetadataType="Schema" ID="403186cc-3863-4c68-95f6-657942faf746" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?xsd=xsd0" />
+    <MetadataFile FileName="PushService.wsdl" MetadataType="Wsdl" ID="bfdce24e-ca52-4a58-8396-a4ec6046ed28" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?wsdl" />
+    <MetadataFile FileName="PushService1.xsd" MetadataType="Schema" ID="4fe8d6bb-deb1-4bf9-b9c2-e24de17cc2a1" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PushService.disco" MetadataType="Disco" ID="92c8b227-a1af-4f19-b675-c2980c3442cf" SourceId="1" SourceUrl="http://wp7pushservice/PushService.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
