@@ -64,7 +64,10 @@ namespace WP7Data.Push.Service
         {           
             var store = new ObjectStore();
             var subscribers = store.GetSubscribers();
-            var messageBytes = Encoding.UTF8.GetBytes(message);
+
+            var xml = string.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?><wp:Notification xmlns:wp=\"WPNotification\"><wp:Toast><wp:Text1>From admin:</wp:Text1><wp:Text2>{0}</wp:Text2></wp:Toast></wp:Notification>", message);
+
+            var messageBytes = Encoding.UTF8.GetBytes(xml);
 
             foreach (var subscriber in subscribers)
                 SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute), messageBytes,

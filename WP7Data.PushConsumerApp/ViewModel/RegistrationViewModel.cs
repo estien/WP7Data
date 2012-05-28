@@ -26,6 +26,21 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             get { return "Registration"; }
         }
 
+        private string _nick;
+
+        public string Nick
+        {
+            get { return _nick; }
+            set
+            {
+                if (_nick != value)
+                {
+                    _nick = value;
+                    RaisePropertyChanged("Nick");
+                }
+            }
+        }
+
         private SubscriptionInfo _subscriptionInfo;
         private readonly ISHelper _storageHelper;
         
@@ -36,16 +51,14 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         public void CreateSubscriptionInfo()
         {
-            if (!_storageHelper.SubscriptionInfoExists())
+            _nick = Nick;
+            _subscriptionInfo = new SubscriptionInfo
             {
-                _subscriptionInfo = new SubscriptionInfo
-                {
-                    Guid = Guid.NewGuid(),
-                    Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
-                    Nick = "NiceNick" //TODO Allow user to choose nick
-                };
-                _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
-            }
+                Guid = Guid.NewGuid(),
+                Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
+                Nick = Nick
+            };
+            _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
         }
     }
 }

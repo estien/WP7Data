@@ -1,5 +1,4 @@
 ﻿using System;
-using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Phone.Controls;
 using WP7Data.Push.ConsumerApp.ViewModel;
 

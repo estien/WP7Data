@@ -48,6 +48,36 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
         }
 
+        private Visibility _nickVisibility = Visibility.Collapsed;
+
+        public Visibility NickVisibility
+        {
+            get { return _nickVisibility; }
+            set
+            {
+                if (_nickVisibility != value)
+                {
+                    _nickVisibility = value;
+                    RaisePropertyChanged("NickVisibility");
+                }
+            }
+        }
+
+        private string _nick;
+
+        public string Nick
+        {
+            get { return _nick; }
+            set
+            {
+                if (_nick != value)
+                {
+                    _nick = value;
+                    RaisePropertyChanged("Nick");
+                }
+            }
+        }
+
         private HttpNotificationChannel _pushChannel;
         private readonly PushRegistrationClient _serviceClient;
         private readonly ISHelper _storageHelper;
@@ -74,8 +104,16 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             SetSubscriptionInfo();
             if (_subscriptionInfo != null)
             {
+                Nick = _subscriptionInfo.Nick;
+                NickVisibility = Visibility.Visible;
                 InitPushChannel();
+                EnsureActiveSubscriptionWithWS();
             }
+        }
+
+        private void EnsureActiveSubscriptionWithWS()
+        {
+            
         }
 
         // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
@@ -91,10 +129,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void InitPushChannel()
         {
-            _pushChannel = HttpNotificationChannel.Find("channel");
+            _pushChannel = HttpNotificationChannel.Find("wp7Data_channel");
             if (_pushChannel == null)
             {
-                _pushChannel = new HttpNotificationChannel("channel");
+                _pushChannel = new HttpNotificationChannel("wp7Data_channel");
                 BindChannelEvents();
                 _pushChannel.Open();
 
@@ -157,10 +195,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
             _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
 
-            CheckIfPhoneIsRegisteredWithWS();
+            SubscribePhoneWithWS();
         }
 
-        private void CheckIfPhoneIsRegisteredWithWS()
+        private void SubscribePhoneWithWS()
         {
             _serviceClient.IsPhoneSubscribedCompleted += serviceClient_IsPhoneSubscribedCompleted;
             _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI);
