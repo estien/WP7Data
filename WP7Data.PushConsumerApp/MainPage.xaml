@@ -36,21 +36,15 @@
 			           Margin="-3,-8,0,0"
 			           Style="{StaticResource PhoneTextTitle1Style}" />
             <TextBlock Text="{Binding SubscriptionStatus}" 
-                       Margin="6,81,6,486" Style="{StaticResource PhoneTextTitle3Style}" Height="100" TextWrapping="Wrap"/>
+                       Margin="6,81,6,80" Style="{StaticResource PhoneTextTitle3Style}" Height="100" TextWrapping="Wrap" />
         </StackPanel>
 
-		<!--ContentPanel - place additional content here-->
-		<Grid x:Name="ContentGrid" Grid.Row="1">
-
-            <TextBlock Text="{Binding WelcomeTitle}"
-                       Style="{StaticResource PhoneTextNormalStyle}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="40" 
-                       TextWrapping="Wrap" 
-                       TextAlignment="Center" />
-            
-        </Grid>
+        <!--ContentPanel - place additional content here-->
+        <StackPanel Margin="20,200,20,20"  Orientation="Horizontal" Visibility="{Binding NickVisibility}">
+            <TextBlock Text="Your nick is" Style="{StaticResource PhoneTextTitle2Style}" Margin="14" />
+            <TextBlock Name="textBox1" Text="{Binding Nick}" Width="230" Margin="14" Style="{StaticResource PhoneTextTitle2Style}"/>
+        </StackPanel>
+		
 	</Grid>
     
     <phone:PhoneApplicationPage.ApplicationBar>

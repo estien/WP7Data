@@ -13,10 +13,10 @@ namespace WP7Data.Push.ConsumerApp
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        private void saveButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            base.OnNavigatedTo(e);
             ViewModel.CreateSubscriptionInfo();
+            NavigationService.GoBack();
         }
     }
 }
