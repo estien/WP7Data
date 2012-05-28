@@ -87,10 +87,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void InitPushChannel()
         {
-            _pushChannel = HttpNotificationChannel.Find("channel");
+            _pushChannel = HttpNotificationChannel.Find("wp7Data_channel");
             if (_pushChannel == null)
             {
-                _pushChannel = new HttpNotificationChannel("channel");
+                _pushChannel = new HttpNotificationChannel("wp7Data_channel");
                 BindChannelEvents();
                 _pushChannel.Open();
             }
