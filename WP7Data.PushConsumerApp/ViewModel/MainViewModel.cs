@@ -33,15 +33,17 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         }
 
         private string _subscriptionStatus;
-        public string SubscriptionStatus { get { return _subscriptionStatus; }
+        public string SubscriptionStatus
+        {
+            get { return _subscriptionStatus; }
             set
             {
-                if(_subscriptionStatus != value)
+                if (_subscriptionStatus != value)
                 {
                     _subscriptionStatus = value;
                     RaisePropertyChanged("SubscriptionStatus");
                 }
-            } 
+            }
         }
 
         private HttpNotificationChannel _pushChannel;
@@ -93,13 +95,20 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 _pushChannel = new HttpNotificationChannel("wp7Data_channel");
                 BindChannelEvents();
                 _pushChannel.Open();
+
+                if (!_pushChannel.IsShellToastBound)
+                    _pushChannel.BindToShellToast();
             }
             else
+            {
                 BindChannelEvents();
+                if (!_pushChannel.IsShellToastBound)
+                    _pushChannel.BindToShellToast();
+            }
         }
 
         private void BindChannelEvents()
-        {
+        {  
             //if error, print onscreen
             _pushChannel.ErrorOccurred += myPushChannel_ErrorOccurred;
 
@@ -119,9 +128,18 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-            var reader = new StreamReader(e.Notification.Body);
-            var message = reader.ReadToEnd();
-            MessageBox.Show(message, "New notification", MessageBoxButton.OK);
+            String message = "";
+            try
+            {
+                var reader = new StreamReader(e.Notification.Body);
+                message = reader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                message = ex.InnerException.ToString();
+            }
+
+            _dispatcher.BeginInvoke(() => MessageBox.Show(message, "New notification", MessageBoxButton.OK));
         }
 
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
@@ -144,14 +162,14 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             var subscribedPosition = e.Result;
             if (subscribedPosition == -1)
             {
-                if(string.IsNullOrWhiteSpace(_subscriptionInfo.ChannelURI))
+                if (string.IsNullOrWhiteSpace(_subscriptionInfo.ChannelURI))
                 {
                     NavigateToRegistrationPage();
                 }
                 else
                 {
                     _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
-                    _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);       
+                    _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
                 }
             }
             else
@@ -169,7 +187,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("PushNotificationError: " + e.ErrorType + Environment.NewLine +
+                            e.ErrorCode + Environment.NewLine + e.Message);
         }
 
         public void DeleteCurrentSubscriptionInfo()
