@@ -52,9 +52,11 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         public void CreateSubscriptionInfo()
         {
             _nick = Nick;
+            var anid = UserExtendedProperties.GetValue("ANID") as string;
+            string anonymousUserId = anid.Substring(2, 32);
             _subscriptionInfo = new SubscriptionInfo
             {
-                Guid = Guid.NewGuid(),
+                DeviceId = anonymousUserId,
                 Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
                 Nick = Nick
             };

@@ -78,6 +78,23 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
         }
 
+        private string _consoleText;
+
+        public string ConsoleText
+        {
+            get { return _consoleText; }
+            set
+            {
+                if (_consoleText != value)
+                {
+                    _consoleText = value;
+                    RaisePropertyChanged("ConsoleText");
+                }
+            }
+        }
+
+        
+
         private HttpNotificationChannel _pushChannel;
         private readonly PushRegistrationClient _serviceClient;
         private readonly ISHelper _storageHelper;
@@ -101,6 +118,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         public void Act()
         {
+            ConsoleText = "Waiting for push actions to occur...";
             SetSubscriptionInfo();
             if (_subscriptionInfo != null)
             {
@@ -188,7 +206,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-            String message = "";
+            var message = "";
             try
             {
                 var reader = new StreamReader(e.Notification.Body);
@@ -199,8 +217,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 message = ex.InnerException.ToString();
             }
 
-            _dispatcher.BeginInvoke(() => MessageBox.Show(message, "New notification", MessageBoxButton.OK));
+            _dispatcher.BeginInvoke(() => ConsoleText += Environment.NewLine + message);
         }
+
+
 
         //ChannelUriUpdated fires when channel is first created or the channel URI changes 
         private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
@@ -246,9 +266,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
+            _dispatcher.BeginInvoke(() => MessageBox.Show("PushNotificationError: " + e.ErrorType +
+                                                          Environment.NewLine +
+                                                          e.ErrorCode + Environment.NewLine + e.Message))
             
-            MessageBox.Show("PushNotificationError: " + e.ErrorType + Environment.NewLine +
-                            e.ErrorCode + Environment.NewLine + e.Message);
         }
 
         public void DeleteCurrentSubscriptionInfo()
