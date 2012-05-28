@@ -1,8 +1,10 @@
 using System.IO;
+using System.Linq;
 using System.Windows.Threading;
 using System;
 using System.Windows;
 using Microsoft.Phone.Notification;
+using Microsoft.Phone.Shell;
 using WP7Data.Push.ConsumerApp.Model;
 using WP7Data.Push.ConsumerApp.Persistance;
 using WP7Data.Push.ConsumerApp.PushService;
@@ -137,13 +139,16 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
                 if (!_pushChannel.IsShellToastBound)
                     _pushChannel.BindToShellToast();
+
+                if(!_pushChannel.IsShellTileBound)
+                    _pushChannel.BindToShellTile();
             }
             else
             {
                 _subscriptionInfo.ChannelURI = _pushChannel.ChannelUri.ToString();
                 BindChannelEvents();
-                if (!_pushChannel.IsShellToastBound)
-                    _pushChannel.BindToShellToast();
+                //if (!_pushChannel.IsShellToastBound)
+                //    _pushChannel.BindToShellToast();
             }
         }
 
@@ -158,6 +163,13 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
             //Handle raw push notifications, which are received only while app is running.
             _pushChannel.HttpNotificationReceived += myPushChannel_HttpNotificationReceived;
+
+            _pushChannel.ShellToastNotificationReceived += _pushChannel_ShellToastNotificationReceived;
+        }
+
+        void _pushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
+        {
+            _dispatcher.BeginInvoke(() => MessageBox.Show("Du har fått en ny Toast", "Toast", MessageBoxButton.OK)); 
         }
 
 
@@ -234,6 +246,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
+            
             MessageBox.Show("PushNotificationError: " + e.ErrorType + Environment.NewLine +
                             e.ErrorCode + Environment.NewLine + e.Message);
         }

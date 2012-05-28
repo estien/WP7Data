@@ -32,9 +32,9 @@
             <StackPanel Grid.Row="1">
                 <TextBlock HorizontalAlignment="Left" Margin="9,0,0,0" Text="please write your message:" FontFamily="Segoe WP" FontSize="32"/>
                 <TextBox x:Name="inputBox" Height="260"></TextBox>
-                <Button VerticalAlignment="Bottom" Content="send raw" Command="{Binding SendRawMessageRelayCommand}" CommandParameter="{Binding Text, ElementName=inputBox}" FontFamily="Segoe WP" FontSize="32"></Button>
-                <Button VerticalAlignment="Bottom" Content="send toast" Command="{Binding SendToastMessageRelayCommand}" CommandParameter="{Binding Text, ElementName=inputBox}" FontFamily="Segoe WP" FontSize="32"></Button>
-
+                <Button VerticalAlignment="Bottom" Content="send raw message" Command="{Binding SendRawMessageRelayCommand}" CommandParameter="{Binding Text, ElementName=inputBox}" FontFamily="Segoe WP" FontSize="32"></Button>
+                <Button VerticalAlignment="Bottom" Content="send toast message" Command="{Binding SendToastMessageRelayCommand}" CommandParameter="{Binding Text, ElementName=inputBox}" FontFamily="Segoe WP" FontSize="32"></Button>
+                <Button VerticalAlignment="Bottom" Content="send tile message" Command="{Binding SendTileMessageRelayCommand}" CommandParameter="{Binding Text, ElementName=inputBox}" FontFamily="Segoe WP" FontSize="32"></Button>
             </StackPanel>
             
             

@@ -18,6 +18,12 @@
   <wsdl:message name="IPushRegistration_SubscribePhone_OutputMessage">
     <wsdl:part name="parameters" element="tns:SubscribePhoneResponse" />
   </wsdl:message>
+  <wsdl:message name="IPushRegistration_GetErrorLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetErrorLog" />
+  </wsdl:message>
+  <wsdl:message name="IPushRegistration_GetErrorLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetErrorLogResponse" />
+  </wsdl:message>
   <wsdl:message name="IPushProvider_SendToastMessageToAllUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:SendToastMessageToAllUsers" />
   </wsdl:message>
@@ -30,6 +36,12 @@
   <wsdl:message name="IPushProvider_SendRawMessageToAllUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendRawMessageToAllUsersResponse" />
   </wsdl:message>
+  <wsdl:message name="IPushProvider_SendTileMessageToAllUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendTileMessageToAllUsers" />
+  </wsdl:message>
+  <wsdl:message name="IPushProvider_SendTileMessageToAllUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendTileMessageToAllUsersResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPushRegistration">
     <wsdl:operation name="IsPhoneSubscribed">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/IsPhoneSubscribed" message="tns:IPushRegistration_IsPhoneSubscribed_InputMessage" />
@@ -38,6 +50,10 @@
     <wsdl:operation name="SubscribePhone">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/SubscribePhone" message="tns:IPushRegistration_SubscribePhone_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushRegistration/SubscribePhoneResponse" message="tns:IPushRegistration_SubscribePhone_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetErrorLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/GetErrorLog" message="tns:IPushRegistration_GetErrorLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPushRegistration/GetErrorLogResponse" message="tns:IPushRegistration_GetErrorLog_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="IPushProvider">
@@ -48,6 +64,10 @@
     <wsdl:operation name="SendRawMessageToAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushProvider/SendRawMessageToAllUsers" message="tns:IPushProvider_SendRawMessageToAllUsers_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushProvider/SendRawMessageToAllUsersResponse" message="tns:IPushProvider_SendRawMessageToAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTileMessageToAllUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPushProvider/SendTileMessageToAllUsers" message="tns:IPushProvider_SendTileMessageToAllUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPushProvider/SendTileMessageToAllUsersResponse" message="tns:IPushProvider_SendTileMessageToAllUsers_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPushRegistration" type="tns:IPushRegistration">
@@ -70,6 +90,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetErrorLog">
+      <soap:operation soapAction="http://tempuri.org/IPushRegistration/GetErrorLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="BasicHttpBinding_IPushProvider" type="tns:IPushProvider">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -84,6 +113,15 @@
     </wsdl:operation>
     <wsdl:operation name="SendRawMessageToAllUsers">
       <soap:operation soapAction="http://tempuri.org/IPushProvider/SendRawMessageToAllUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTileMessageToAllUsers">
+      <soap:operation soapAction="http://tempuri.org/IPushProvider/SendTileMessageToAllUsers" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

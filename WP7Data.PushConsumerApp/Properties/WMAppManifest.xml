@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{192a95f0-8348-43dd-803b-924a94f2bd50}" Title="WP7Data.Push.ConsumerApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WP7Data.PushConsumerApp author" Description="Sample description" Publisher="WP7Data.PushConsumerApp publisher">
+  <App xmlns="" ProductID="{192a95f0-8348-43dd-803b-924a94f2bd50}" Title="ConsumerApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WP7Data.PushConsumerApp author" Description="Sample description" Publisher="WP7Data.PushConsumerApp publisher">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.jpg</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -26,7 +26,7 @@
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">Background.jpg</BackgroundImageURI>
           <Count>0</Count>
-          <Title>WP7Data.Push.ConsumerApp</Title>
+          <Title>ConsumerApp</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>

@@ -27,6 +27,11 @@ namespace WP7Data.Push.TriggerApp.PushService {
         System.IAsyncResult BeginSubscribePhone(System.Guid guid, string channelURI, string nick, string device, System.AsyncCallback callback, object asyncState);
         
         int EndSubscribePhone(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IPushRegistration/GetErrorLog", ReplyAction="http://tempuri.org/IPushRegistration/GetErrorLogResponse")]
+        System.IAsyncResult BeginGetErrorLog(System.AsyncCallback callback, object asyncState);
+        
+        string EndGetErrorLog(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -73,6 +78,25 @@ namespace WP7Data.Push.TriggerApp.PushService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetErrorLogCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetErrorLogCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public string Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class PushRegistrationClient : System.ServiceModel.ClientBase<WP7Data.Push.TriggerApp.PushService.IPushRegistration>, WP7Data.Push.TriggerApp.PushService.IPushRegistration {
         
         private BeginOperationDelegate onBeginIsPhoneSubscribedDelegate;
@@ -86,6 +110,12 @@ namespace WP7Data.Push.TriggerApp.PushService {
         private EndOperationDelegate onEndSubscribePhoneDelegate;
         
         private System.Threading.SendOrPostCallback onSubscribePhoneCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetErrorLogDelegate;
+        
+        private EndOperationDelegate onEndGetErrorLogDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetErrorLogCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -143,6 +173,8 @@ namespace WP7Data.Push.TriggerApp.PushService {
         public event System.EventHandler<IsPhoneSubscribedCompletedEventArgs> IsPhoneSubscribedCompleted;
         
         public event System.EventHandler<SubscribePhoneCompletedEventArgs> SubscribePhoneCompleted;
+        
+        public event System.EventHandler<GetErrorLogCompletedEventArgs> GetErrorLogCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
@@ -246,6 +278,50 @@ namespace WP7Data.Push.TriggerApp.PushService {
                         channelURI,
                         nick,
                         device}, this.onEndSubscribePhoneDelegate, this.onSubscribePhoneCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult WP7Data.Push.TriggerApp.PushService.IPushRegistration.BeginGetErrorLog(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetErrorLog(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        string WP7Data.Push.TriggerApp.PushService.IPushRegistration.EndGetErrorLog(System.IAsyncResult result) {
+            return base.Channel.EndGetErrorLog(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetErrorLog(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return ((WP7Data.Push.TriggerApp.PushService.IPushRegistration)(this)).BeginGetErrorLog(callback, asyncState);
+        }
+        
+        private object[] OnEndGetErrorLog(System.IAsyncResult result) {
+            string retVal = ((WP7Data.Push.TriggerApp.PushService.IPushRegistration)(this)).EndGetErrorLog(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetErrorLogCompleted(object state) {
+            if ((this.GetErrorLogCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetErrorLogCompleted(this, new GetErrorLogCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetErrorLogAsync() {
+            this.GetErrorLogAsync(null);
+        }
+        
+        public void GetErrorLogAsync(object userState) {
+            if ((this.onBeginGetErrorLogDelegate == null)) {
+                this.onBeginGetErrorLogDelegate = new BeginOperationDelegate(this.OnBeginGetErrorLog);
+            }
+            if ((this.onEndGetErrorLogDelegate == null)) {
+                this.onEndGetErrorLogDelegate = new EndOperationDelegate(this.OnEndGetErrorLog);
+            }
+            if ((this.onGetErrorLogCompletedDelegate == null)) {
+                this.onGetErrorLogCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetErrorLogCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetErrorLogDelegate, null, this.onEndGetErrorLogDelegate, this.onGetErrorLogCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -353,6 +429,18 @@ namespace WP7Data.Push.TriggerApp.PushService {
                 int _result = ((int)(base.EndInvoke("SubscribePhone", _args, result)));
                 return _result;
             }
+            
+            public System.IAsyncResult BeginGetErrorLog(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
+                System.IAsyncResult _result = base.BeginInvoke("GetErrorLog", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public string EndGetErrorLog(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                string _result = ((string)(base.EndInvoke("GetErrorLog", _args, result)));
+                return _result;
+            }
         }
     }
     
@@ -369,6 +457,11 @@ namespace WP7Data.Push.TriggerApp.PushService {
         System.IAsyncResult BeginSendRawMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState);
         
         void EndSendRawMessageToAllUsers(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IPushProvider/SendTileMessageToAllUsers", ReplyAction="http://tempuri.org/IPushProvider/SendTileMessageToAllUsersResponse")]
+        System.IAsyncResult BeginSendTileMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState);
+        
+        void EndSendTileMessageToAllUsers(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -390,6 +483,12 @@ namespace WP7Data.Push.TriggerApp.PushService {
         private EndOperationDelegate onEndSendRawMessageToAllUsersDelegate;
         
         private System.Threading.SendOrPostCallback onSendRawMessageToAllUsersCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSendTileMessageToAllUsersDelegate;
+        
+        private EndOperationDelegate onEndSendTileMessageToAllUsersDelegate;
+        
+        private System.Threading.SendOrPostCallback onSendTileMessageToAllUsersCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -447,6 +546,8 @@ namespace WP7Data.Push.TriggerApp.PushService {
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SendToastMessageToAllUsersCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SendRawMessageToAllUsersCompleted;
+        
+        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SendTileMessageToAllUsersCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
@@ -540,6 +641,51 @@ namespace WP7Data.Push.TriggerApp.PushService {
             }
             base.InvokeAsync(this.onBeginSendRawMessageToAllUsersDelegate, new object[] {
                         message}, this.onEndSendRawMessageToAllUsersDelegate, this.onSendRawMessageToAllUsersCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult WP7Data.Push.TriggerApp.PushService.IPushProvider.BeginSendTileMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSendTileMessageToAllUsers(message, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        void WP7Data.Push.TriggerApp.PushService.IPushProvider.EndSendTileMessageToAllUsers(System.IAsyncResult result) {
+            base.Channel.EndSendTileMessageToAllUsers(result);
+        }
+        
+        private System.IAsyncResult OnBeginSendTileMessageToAllUsers(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            string message = ((string)(inValues[0]));
+            return ((WP7Data.Push.TriggerApp.PushService.IPushProvider)(this)).BeginSendTileMessageToAllUsers(message, callback, asyncState);
+        }
+        
+        private object[] OnEndSendTileMessageToAllUsers(System.IAsyncResult result) {
+            ((WP7Data.Push.TriggerApp.PushService.IPushProvider)(this)).EndSendTileMessageToAllUsers(result);
+            return null;
+        }
+        
+        private void OnSendTileMessageToAllUsersCompleted(object state) {
+            if ((this.SendTileMessageToAllUsersCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SendTileMessageToAllUsersCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SendTileMessageToAllUsersAsync(string message) {
+            this.SendTileMessageToAllUsersAsync(message, null);
+        }
+        
+        public void SendTileMessageToAllUsersAsync(string message, object userState) {
+            if ((this.onBeginSendTileMessageToAllUsersDelegate == null)) {
+                this.onBeginSendTileMessageToAllUsersDelegate = new BeginOperationDelegate(this.OnBeginSendTileMessageToAllUsers);
+            }
+            if ((this.onEndSendTileMessageToAllUsersDelegate == null)) {
+                this.onEndSendTileMessageToAllUsersDelegate = new EndOperationDelegate(this.OnEndSendTileMessageToAllUsers);
+            }
+            if ((this.onSendTileMessageToAllUsersCompletedDelegate == null)) {
+                this.onSendTileMessageToAllUsersCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSendTileMessageToAllUsersCompleted);
+            }
+            base.InvokeAsync(this.onBeginSendTileMessageToAllUsersDelegate, new object[] {
+                        message}, this.onEndSendTileMessageToAllUsersDelegate, this.onSendTileMessageToAllUsersCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -640,6 +786,18 @@ namespace WP7Data.Push.TriggerApp.PushService {
             public void EndSendRawMessageToAllUsers(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 base.EndInvoke("SendRawMessageToAllUsers", _args, result);
+            }
+            
+            public System.IAsyncResult BeginSendTileMessageToAllUsers(string message, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = message;
+                System.IAsyncResult _result = base.BeginInvoke("SendTileMessageToAllUsers", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public void EndSendTileMessageToAllUsers(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                base.EndInvoke("SendTileMessageToAllUsers", _args, result);
             }
         }
     }
