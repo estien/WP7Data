@@ -170,8 +170,6 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             {
                 _subscriptionInfo.ChannelURI = _pushChannel.ChannelUri.ToString();
                 BindChannelEvents();
-                //if (!_pushChannel.IsShellToastBound)
-                //    _pushChannel.BindToShellToast();
             }
         }
 

@@ -119,8 +119,6 @@ namespace WP7Data.Push.Service
             request.ContentType = "text/xml";
             request.ContentLength = message.Length;
 
-            //request.Headers.Add("X-MessageID", DeviceId.NewDeviceId().ToString());
-
             switch (notificationType)
             {
                 case Notification.NotificationType.Toast:
