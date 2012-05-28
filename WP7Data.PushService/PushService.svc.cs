@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.ServiceModel;
@@ -50,10 +51,9 @@ namespace WP7Data.Push.Service
 
             
             subscriber.Created = DateTime.Now;
-
+            
             int position = _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : _store.AddSubscriber(subscriber);
-
-            SendTileMessageToAllUsers(string.Format("{0} ({1}) registered as number {2}", subscriber.Nick, subscriber.Device, position) );
+            SendRawMessageToAllUsers(string.Format("{0} ({1}) registered as number {2}", subscriber.Nick, subscriber.Device, position)); 
 
             return position;
         }
@@ -108,6 +108,12 @@ namespace WP7Data.Push.Service
         {
             var store = new ObjectStore();
             var subscribers = store.GetSubscribers();
+
+            SendMessageToUsers(message, subscribers);
+        }
+
+        private static void SendMessageToUsers(string message, List<Subscriber> subscribers)
+        {
             var messageBytes = Encoding.UTF8.GetBytes(message);
 
             foreach (var subscriber in subscribers)
