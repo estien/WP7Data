@@ -24,6 +24,8 @@ namespace WP7Data.Push.Service
              }
         }
 
+        private static string _debugString = string.Empty;
+
         public PushService()
         {
             _store = new ObjectStore();
@@ -53,6 +55,11 @@ namespace WP7Data.Push.Service
             return position;
         }
 
+        public string GetErrorLog()
+        {
+            return _debugString;
+        }
+
         public void SendToastMessageToAllUsers(string message)
         {           
             var store = new ObjectStore();
@@ -79,25 +86,23 @@ namespace WP7Data.Push.Service
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = WebRequestMethods.Http.Post;
-            request.Accept = "text/xml";
             request.ContentType = "text/xml";
             request.ContentLength = message.Length;
-            request.Credentials = CredentialCache.DefaultCredentials;
 
-            request.Headers.Add("X-MessageID", Guid.NewGuid().ToString());
+            //request.Headers.Add("X-MessageID", Guid.NewGuid().ToString());
 
             switch (notificationType)
             {
                 case Notification.NotificationType.Toast:
                     request.Headers["X-WindowsPhone-Target"] = "toast";
-                    request.Headers.Add("X-NotificationClass", ((int)Notification.BatchingInterval.ToastImmediately).ToString());
+                    request.Headers["X-NotificationClass"] = ((int)Notification.BatchingInterval.ToastImmediately).ToString();
                     break;
                 case Notification.NotificationType.Tile:
                     request.Headers["X-WindowsPhone-Target"] = "token";
-                    request.Headers.Add("X-NotificationClass", ((int)Notification.BatchingInterval.TileImmediately).ToString());
+                    request.Headers["X-NotificationClass"] = ((int)Notification.BatchingInterval.TileImmediately).ToString();
                     break;
                 default:
-                    request.Headers.Add("X-NotificationClass", ((int)Notification.BatchingInterval.RawImmediately).ToString());
+                    request.Headers["X-NotificationClass"] = ((int)Notification.BatchingInterval.RawImmediately).ToString();
                     break;
             }
 
@@ -120,6 +125,7 @@ namespace WP7Data.Push.Service
             catch (WebException ex)
             {
                 Debug.WriteLine(string.Format("ERROR: {0}", ex.Message));
+                _debugString += string.Format("\n{0} Request failed:{1} with status code {2}", DateTime.Now, ex.Message, ex.Status.ToString());
             }
         }
     }
