@@ -34,15 +34,13 @@
         <TextBlock Text="{Binding SubscriptionStatus}" Style="{StaticResource PhoneTextTitle3Style}" Height="60" TextWrapping="Wrap" />
         
         <ScrollViewer Height="313" Margin="10">
-            <TextBlock Text="{Binding ConsoleText}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" Foreground="BurlyWood"/>
+            <TextBlock Text="{Binding ConsoleText}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" Foreground="BurlyWood" TextWrapping="Wrap"/>
         </ScrollViewer>
     </StackPanel>
 		
     
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <!-- <shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/Images/appbar_button1.png" Text="Button 1"></shell:ApplicationBarIconButton> -->
-            <!-- <shell:ApplicationBarIconButton x:Name="appbar_button2" IconUri="/Images/appbar_button2.png" Text="Button 2"></shell:ApplicationBarIconButton> -->
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="menuItem1" Text="Delete subscription from phone" Click="DeleteSubscriptionButton_Clicked"></shell:ApplicationBarMenuItem>
             </shell:ApplicationBar.MenuItems>

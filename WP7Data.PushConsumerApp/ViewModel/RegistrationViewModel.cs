@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO.IsolatedStorage;
-using GalaSoft.MvvmLight;
 using Microsoft.Phone.Info;
 using WP7Data.Push.ConsumerApp.Model;
 using WP7Data.Push.ConsumerApp.Persistance;
