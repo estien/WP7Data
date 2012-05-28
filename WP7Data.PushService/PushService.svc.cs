@@ -60,6 +60,28 @@ namespace WP7Data.Push.Service
             return _debugString;
         }
 
+        public void SendTileMessageToAllUsers(string message)
+        {
+            var subscribers = _store.GetSubscribers();
+            
+            string tileMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                        "<wp:Notification xmlns:wp=\"WPNotification\">" +
+                        "<wp:Tile>" +
+                        "<wp:BackgroundImage>{0}</wp:BackgroundImage>" +
+                        "<wp:Count>{1}</wp:Count>" +
+                        "<wp:Title>{2}</wp:Title>" +
+                        "</wp:Tile> " +
+                        "</wp:Notification>";
+
+            string formattedTileMessage = string.Format(tileMessage, "", 1, "Tilemessage");
+
+            byte[] messageBytes = Encoding.UTF8.GetBytes(formattedTileMessage);
+
+            foreach (var subscriber in subscribers)
+                SendMessage(new Uri(subscriber.ChannelURI, UriKind.Absolute), messageBytes,
+                            Notification.NotificationType.Tile);
+        }
+
         public void SendToastMessageToAllUsers(string message)
         {           
             var store = new ObjectStore();

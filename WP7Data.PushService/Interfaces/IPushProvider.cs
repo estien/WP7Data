@@ -10,5 +10,8 @@ namespace WP7Data.Push.Service.Interfaces
         
         [OperationContract]
         void SendRawMessageToAllUsers(string message);
+
+        [OperationContract]
+        void SendTileMessageToAllUsers(string message);
     }
 }
