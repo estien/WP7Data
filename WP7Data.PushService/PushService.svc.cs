@@ -67,12 +67,13 @@ namespace WP7Data.Push.Service
             string tileMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
                         "<wp:Notification xmlns:wp=\"WPNotification\">" +
                         "<wp:Tile>" +
-                        "<wp:Count>{0}</wp:Count>" +
-                        "<wp:Title>{1}</wp:Title>" +
+                        "<wp:BackgroundImage>{0}</wp:BackgroundImage>" +
+                        "<wp:Count>{1}</wp:Count>" +
+                        "<wp:Title>{2}</wp:Title>" +
                         "</wp:Tile> " +
                         "</wp:Notification>";
 
-            string formattedTileMessage = string.Format(tileMessage, 1337, message);
+            string formattedTileMessage = string.Format(tileMessage, new Uri("http://2.bp.blogspot.com/_JP9OiUP__qY/TOvdF0vZpaI/AAAAAAAAAlA/5EEo_gIifD0/s1600/funny-monkey-2.jpg", UriKind.Absolute), 42, message);
 
             byte[] messageBytes = Encoding.UTF8.GetBytes(formattedTileMessage);
 
