@@ -138,6 +138,9 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
                 if (!_pushChannel.IsShellToastBound)
                     _pushChannel.BindToShellToast();
+
+                if(!_pushChannel.IsShellTileBound)
+                    _pushChannel.BindToShellTile();
             }
             else
             {
