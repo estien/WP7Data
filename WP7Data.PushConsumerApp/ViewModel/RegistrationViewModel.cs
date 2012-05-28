@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.IsolatedStorage;
 using GalaSoft.MvvmLight;
 using Microsoft.Phone.Info;
 using WP7Data.Push.ConsumerApp.Model;
@@ -51,12 +52,17 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         public void CreateSubscriptionInfo()
         {
-            _nick = Nick;
-            var anid = UserExtendedProperties.GetValue("ANID") as string;
-            string anonymousUserId = (anid != null) ? anid.Substring(2, 32) : "EmulatorThingy";
+            string deviceId;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("DeviceId"))
+                deviceId = IsolatedStorageSettings.ApplicationSettings["DeviceId"].ToString();
+            else
+            {
+                deviceId = Guid.NewGuid().ToString();
+                IsolatedStorageSettings.ApplicationSettings["DeviceId"] = deviceId;
+            }
             _subscriptionInfo = new SubscriptionInfo
             {
-                DeviceId = anonymousUserId,
+                DeviceId = deviceId,
                 Device = DeviceExtendedProperties.GetValue("DeviceName").ToString(),
                 Nick = Nick
             };

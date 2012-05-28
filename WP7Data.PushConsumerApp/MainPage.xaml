@@ -34,7 +34,7 @@
         <TextBlock Text="{Binding SubscriptionStatus}" Style="{StaticResource PhoneTextTitle3Style}" Height="60" TextWrapping="Wrap" />
         
         <ScrollViewer Height="313" Margin="10">
-            <TextBlock Text="{Binding ConsoleText}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0"/>
+            <TextBlock Text="{Binding ConsoleText}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" Foreground="BurlyWood"/>
         </ScrollViewer>
     </StackPanel>
 		
