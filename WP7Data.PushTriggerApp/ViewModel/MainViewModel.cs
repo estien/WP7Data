@@ -21,7 +21,7 @@ namespace WP7Data.Push.TriggerApp.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public RelayCommand<string> SendRawMessageRelayCommand { get; private set; }
-        public RelayCommand<string> SendToastMessageRelayCommand { get; private set; }
+        public RelayCommand<string> SendToastMessageRelayCommand { get; private set; }   
         public RelayCommand<string> SendTileMessageRelayCommand { get; private set; }
 
         private PushService.PushProviderClient _pushClient;
