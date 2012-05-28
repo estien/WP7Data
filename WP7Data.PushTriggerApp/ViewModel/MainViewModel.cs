@@ -22,6 +22,8 @@ namespace WP7Data.Push.TriggerApp.ViewModel
     {
         public RelayCommand<string> SendRawMessageRelayCommand { get; private set; }
         public RelayCommand<string> SendToastMessageRelayCommand { get; private set; }
+        public RelayCommand<string> SendTileMessageRelayCommand { get; private set; }
+
         private PushService.PushProviderClient _pushClient;
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace WP7Data.Push.TriggerApp.ViewModel
         {
             SendRawMessageRelayCommand = new RelayCommand<string>(param => SendRawMessageToService(param));
             SendToastMessageRelayCommand = new RelayCommand<string>(param => SendToastMessageToService(param)); 
+            SendTileMessageRelayCommand = new RelayCommand<string>(param => SendTileMessageToService(param));
             _pushClient = new PushProviderClient();
         }
 
@@ -42,6 +45,11 @@ namespace WP7Data.Push.TriggerApp.ViewModel
         private void SendToastMessageToService(string message)
         {
             _pushClient.SendToastMessageToAllUsersAsync(message);
+        }
+
+        private void SendTileMessageToService(string message)
+        {
+            _pushClient.SendTileMessageToAllUsersAsync(message);
         }
     }
 }
