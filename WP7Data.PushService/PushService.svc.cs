@@ -53,7 +53,7 @@ namespace WP7Data.Push.Service
             subscriber.Created = DateTime.Now;
             
             int position = _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : _store.AddSubscriber(subscriber);
-            SendRawMessageToAllUsers(string.Format("[{0}] {1} ({2}) registered as number {3}",DateTime.Now.ToString("HH:mm:ss"), subscriber.Nick, subscriber.Device, position)); 
+            SendRawMessageToAllUsers(string.Format("{0} ({1}) registered as number {2}", subscriber.Nick, subscriber.Device, position)); 
 
             return position;
         }
@@ -114,6 +114,7 @@ namespace WP7Data.Push.Service
 
         private static void SendMessageToUsers(string message, List<Subscriber> subscribers)
         {
+            message = string.Concat(string.Format("[{0}] ", DateTime.Now.ToString("HH:mm:ss")), message);
             var messageBytes = Encoding.UTF8.GetBytes(message);
 
             foreach (var subscriber in subscribers)
