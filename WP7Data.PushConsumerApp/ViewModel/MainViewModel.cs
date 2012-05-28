@@ -111,7 +111,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void EnsureActiveSubscriptionWithWS()
         {
-            
+            _serviceClient.IsPhoneSubscribedCompleted += serviceClient_IsPhoneSubscribedCompleted;
+            _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI);
         }
 
         // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
@@ -139,6 +140,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
             else
             {
+                _subscriptionInfo.ChannelURI = _pushChannel.ChannelUri.ToString();
                 BindChannelEvents();
                 if (!_pushChannel.IsShellToastBound)
                     _pushChannel.BindToShellToast();
@@ -148,6 +150,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         private void BindChannelEvents()
         {  
             //if error, print onscreen
+            
             _pushChannel.ErrorOccurred += myPushChannel_ErrorOccurred;
 
             //ChannelUriUpdated fires when channel is first created or the channel URI changes 
@@ -160,8 +163,15 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void serviceClient_SubscribePhoneCompleted(object sender, SubscribePhoneCompletedEventArgs subscribePhoneCompletedEventArgs)
         {
+            _serviceClient.SubscribePhoneCompleted -= serviceClient_SubscribePhoneCompleted;
             int position = subscribePhoneCompletedEventArgs.Result;
-            _dispatcher.BeginInvoke(() => MessageBox.Show("Thank you sir.  You subscribed as number " + position));
+            ShowSubscriptionInfo(position);
+            ShowNewRegistrationMessage(position);
+        }
+
+        private void ShowNewRegistrationMessage(int position)
+        {
+            _dispatcher.BeginInvoke(() => MessageBox.Show("You subscribed as number " + position));
         }
 
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
@@ -185,37 +195,36 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         {
             _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
             _storageHelper.SaveSubscriptionInfo(_subscriptionInfo);
-
             SubscribePhoneWithWS();
         }
 
         private void SubscribePhoneWithWS()
         {
-            _serviceClient.IsPhoneSubscribedCompleted += serviceClient_IsPhoneSubscribedCompleted;
-            _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI);
+            SubscriptionStatus = string.Empty;
+            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
+            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
 
         private void serviceClient_IsPhoneSubscribedCompleted(object sender, IsPhoneSubscribedCompletedEventArgs e)
         {
+            _serviceClient.IsPhoneSubscribedCompleted -= serviceClient_IsPhoneSubscribedCompleted;
             var subscribedPosition = e.Result;
             if (subscribedPosition == -1)
             {
                 if (string.IsNullOrWhiteSpace(_subscriptionInfo.ChannelURI))
-                {
                     NavigateToRegistrationPage();
-                }
                 else
-                {
-                    _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
-                    _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
-                }
+                    SubscribePhoneWithWS();
             }
             else
-            {
-                _dispatcher.BeginInvoke(
-                    () =>
-                    SubscriptionStatus = "Thanks Sir.\nYou are subscribed as number " + subscribedPosition);
-            }
+                ShowSubscriptionInfo(subscribedPosition);
+        }
+
+        private void ShowSubscriptionInfo(int subscribedPosition)
+        {
+            _dispatcher.BeginInvoke(
+                () =>
+                SubscriptionStatus = "You are subscribed as number " + subscribedPosition);
         }
 
         private void NavigateToRegistrationPage()
