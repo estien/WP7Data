@@ -190,7 +190,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         void _pushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            _dispatcher.BeginInvoke(() => MessageBox.Show("Du har fått en ny Toast", "Toast", MessageBoxButton.OK)); 
+            _dispatcher.BeginInvoke(() => MessageBox.Show(e.Collection["wp:Text2"], "Du har fått en ny Toast:", MessageBoxButton.OK)); 
         }
 
 
