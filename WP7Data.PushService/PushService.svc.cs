@@ -52,6 +52,9 @@ namespace WP7Data.Push.Service
             subscriber.Created = DateTime.Now;
 
             int position = _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : _store.AddSubscriber(subscriber);
+
+            SendTileMessageToAllUsers(string.Format("{0} ({1}) registered as number {2}", subscriber.Nick, subscriber.Device, position) );
+
             return position;
         }
 
