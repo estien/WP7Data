@@ -13,7 +13,7 @@ namespace WP7Data.Push.Service.Model
         public ObjectId Id { get; set; }
 
         [DataMember]
-        public Guid Guid { get; set; }
+        public string DeviceId { get; set; }
 
         [DataMember]
         public string ChannelURI { get; set; }

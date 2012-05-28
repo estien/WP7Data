@@ -28,14 +28,15 @@ namespace WP7Data.Push.Service.Persistance
         public int AddSubscriber(Subscriber subscriber)
         {
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
+            RemovePhoneSubscription(subscriber.DeviceId);
             coll.Save(subscriber);
             return (int) coll.Count();
         }
 
-        public Subscriber GetSubscriber(Guid guid)
+        public Subscriber GetSubscriber(string deviceId)
         {
             var coll = _database.GetCollection<Subscriber>(SubscribersKey);
-            var query = new QueryDocument("Guid", guid);
+            var query = new QueryDocument("DeviceId", deviceId);
             var subscriber = coll.FindOne(query);
 
             return subscriber;
@@ -51,14 +52,21 @@ namespace WP7Data.Push.Service.Persistance
 
         public bool IsSubscribed(Subscriber subscriber)
         {
-            var subscriberInStore = GetSubscriber(subscriber.Guid);
+            var subscriberInStore = GetSubscriber(subscriber.DeviceId);
             return subscriberInStore != null;
         }
 
         public int GetSubscriberPosition(Subscriber subscriber)
         {
             var subscribers = GetSubscribers();
-            return subscribers.FindIndex(y => y.Guid == subscriber.Guid) + 1;
+            return subscribers.FindIndex(y => y.DeviceId == subscriber.DeviceId) + 1;
+        }
+
+        public void RemovePhoneSubscription(string deviceId)
+        {
+            var coll = _database.GetCollection<Subscriber>(SubscribersKey);
+            var subscriber = new QueryDocument("DeviceId", deviceId);
+            coll.Remove(subscriber);
         }
     }
 }

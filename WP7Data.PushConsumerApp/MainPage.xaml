@@ -31,7 +31,11 @@
             <TextBlock Name="textBox1" Text="{Binding Nick}" Width="230" Margin="10,0,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
         </StackPanel>
 
-        <TextBlock Text="{Binding SubscriptionStatus}" Style="{StaticResource PhoneTextTitle3Style}" Height="240" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding SubscriptionStatus}" Style="{StaticResource PhoneTextTitle3Style}" Height="60" TextWrapping="Wrap" />
+        
+        <ScrollViewer Height="313" Margin="10">
+            <TextBlock Text="{Binding ConsoleText}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0"/>
+        </ScrollViewer>
     </StackPanel>
 		
     

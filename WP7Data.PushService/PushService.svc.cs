@@ -14,7 +14,7 @@ namespace WP7Data.Push.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class PushService : IPushRegistration, IPushProvider
     {
-        private ObjectStore _store;
+        private readonly ObjectStore _store;
 
         private static class OutputWindow
         {
@@ -31,20 +31,20 @@ namespace WP7Data.Push.Service
             _store = new ObjectStore();
         }
 
-        public int IsPhoneSubscribed(Guid guid, string channelURI)
+        public int IsPhoneSubscribed(string deviceId, string channelURI)
         {
-            var subscriber = new Subscriber { ChannelURI = channelURI, Guid = guid};
+            var subscriber = new Subscriber { ChannelURI = channelURI, DeviceId = deviceId};
             return _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : -1;
         }
 
-        public int SubscribePhone(Guid guid, string channelURI, string nick, string device)
+        public int SubscribePhone(string deviceId, string channelURI, string nick, string device)
         {
-            var subscriber = new Subscriber {ChannelURI = channelURI, Guid = guid, Device = device, Nick = nick};
+            var subscriber = new Subscriber {ChannelURI = channelURI, DeviceId = deviceId, Device = device, Nick = nick};
 
             #region If in developer mode
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                OutputWindow.Show(string.Format("Phone with GUID {0} has been subscribed on channel {1}", subscriber.Guid.ToString(), subscriber.ChannelURI));
+                OutputWindow.Show(string.Format("Phone with DeviceId {0} has been subscribed on channel {1}", subscriber.DeviceId.ToString(), subscriber.ChannelURI));
             }
             #endregion
 
@@ -53,6 +53,11 @@ namespace WP7Data.Push.Service
 
             int position = _store.IsSubscribed(subscriber) ? _store.GetSubscriberPosition(subscriber) : _store.AddSubscriber(subscriber);
             return position;
+        }
+
+        public void UnsubscribePhone(string deviceId)
+        {
+            _store.RemovePhoneSubscription(deviceId);
         }
 
         public string GetErrorLog()
@@ -114,7 +119,7 @@ namespace WP7Data.Push.Service
             request.ContentType = "text/xml";
             request.ContentLength = message.Length;
 
-            //request.Headers.Add("X-MessageID", Guid.NewGuid().ToString());
+            //request.Headers.Add("X-MessageID", DeviceId.NewDeviceId().ToString());
 
             switch (notificationType)
             {
