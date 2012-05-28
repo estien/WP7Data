@@ -20,7 +20,7 @@ namespace WP7Data.Push.Service
         {
              public static void Show(string value)
              {
-                 System.Diagnostics.Debug.WriteLine(value);
+                 Debug.WriteLine(value);
              }
         }
 
@@ -42,7 +42,7 @@ namespace WP7Data.Push.Service
             var subscriber = new Subscriber {ChannelURI = channelURI, DeviceId = deviceId, Device = device, Nick = nick};
 
             #region If in developer mode
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 OutputWindow.Show(string.Format("Phone with DeviceId {0} has been subscribed on channel {1}", subscriber.DeviceId.ToString(), subscriber.ChannelURI));
             }
@@ -69,14 +69,14 @@ namespace WP7Data.Push.Service
         {
             var subscribers = _store.GetSubscribers();
             
-            string tileMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                        "<wp:Notification xmlns:wp=\"WPNotification\">" +
-                        "<wp:Tile>" +
-                        "<wp:BackgroundImage>{0}</wp:BackgroundImage>" +
-                        "<wp:Count>{1}</wp:Count>" +
-                        "<wp:Title>{2}</wp:Title>" +
-                        "</wp:Tile> " +
-                        "</wp:Notification>";
+            const string tileMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                                       "<wp:Notification xmlns:wp=\"WPNotification\">" +
+                                       "<wp:Tile>" +
+                                       "<wp:BackgroundImage>{0}</wp:BackgroundImage>" +
+                                       "<wp:Count>{1}</wp:Count>" +
+                                       "<wp:Title>{2}</wp:Title>" +
+                                       "</wp:Tile> " +
+                                       "</wp:Notification>";
 
             string formattedTileMessage = string.Format(tileMessage, "http://wp7pushservice.apphb.com/images/funny-monkey-2.jpg", 42, message);
 
@@ -141,18 +141,23 @@ namespace WP7Data.Push.Service
             try
             {
                 var response = (HttpWebResponse)request.GetResponse();
-                
-                var notificationStatus = response.Headers["X-NotificationStatus"];
-                var subscriptionStatus = response.Headers["X-SubscriptionStatus"];
-                var deviceConnectionStatus = response.Headers["X-DeviceConnectionStatus"];
 
-                Debug.WriteLine(string.Format("Device Connection Status: {0}", deviceConnectionStatus));
-                Debug.WriteLine(string.Format("Notification Status: {0}", notificationStatus));
-                Debug.WriteLine(string.Format("Subscription Status: {0}", subscriptionStatus));
+                #region If in developer mode
+                if (Debugger.IsAttached)
+                {
+                    var notificationStatus = response.Headers["X-NotificationStatus"];
+                    var subscriptionStatus = response.Headers["X-SubscriptionStatus"];
+                    var deviceConnectionStatus = response.Headers["X-DeviceConnectionStatus"];
+                    OutputWindow.Show(string.Format("Device Connection Status: {0}", deviceConnectionStatus));
+                    OutputWindow.Show(string.Format("Notification Status: {0}", notificationStatus));
+                    OutputWindow.Show(string.Format("Subscription Status: {0}", subscriptionStatus));
+                }
+                #endregion
             }
             catch (WebException ex)
             {
-                Debug.WriteLine(string.Format("ERROR: {0}", ex.Message));
+                if (Debugger.IsAttached) 
+                    OutputWindow.Show(string.Format("ERROR: {0}", ex.Message));
                 _debugString += string.Format("\n{0} Request failed:{1} with status code {2}", DateTime.Now, ex.Message, ex.Status.ToString());
             }
         }
