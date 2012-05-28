@@ -18,6 +18,12 @@
   <wsdl:message name="IPushRegistration_SubscribePhone_OutputMessage">
     <wsdl:part name="parameters" element="tns:SubscribePhoneResponse" />
   </wsdl:message>
+  <wsdl:message name="IPushRegistration_UnsubscribePhone_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribePhone" />
+  </wsdl:message>
+  <wsdl:message name="IPushRegistration_UnsubscribePhone_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribePhoneResponse" />
+  </wsdl:message>
   <wsdl:message name="IPushRegistration_GetErrorLog_InputMessage">
     <wsdl:part name="parameters" element="tns:GetErrorLog" />
   </wsdl:message>
@@ -51,6 +57,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/SubscribePhone" message="tns:IPushRegistration_SubscribePhone_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushRegistration/SubscribePhoneResponse" message="tns:IPushRegistration_SubscribePhone_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="UnsubscribePhone">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/UnsubscribePhone" message="tns:IPushRegistration_UnsubscribePhone_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPushRegistration/UnsubscribePhoneResponse" message="tns:IPushRegistration_UnsubscribePhone_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetErrorLog">
       <wsdl:input wsaw:Action="http://tempuri.org/IPushRegistration/GetErrorLog" message="tns:IPushRegistration_GetErrorLog_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPushRegistration/GetErrorLogResponse" message="tns:IPushRegistration_GetErrorLog_OutputMessage" />
@@ -83,6 +93,15 @@
     </wsdl:operation>
     <wsdl:operation name="SubscribePhone">
       <soap:operation soapAction="http://tempuri.org/IPushRegistration/SubscribePhone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnsubscribePhone">
+      <soap:operation soapAction="http://tempuri.org/IPushRegistration/UnsubscribePhone" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
