@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -160,7 +161,10 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                     _pushChannel.BindToShellToast();
 
                 if(!_pushChannel.IsShellTileBound)
-                    _pushChannel.BindToShellTile();
+                {
+                    var listOfAllowedDomains = new Collection<Uri> {new Uri(@"http://wp7pushservice.apphb.com")};
+                    _pushChannel.BindToShellTile(listOfAllowedDomains);
+                }
             }
             else
             {
