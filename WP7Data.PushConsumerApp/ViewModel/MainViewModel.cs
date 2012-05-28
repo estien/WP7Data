@@ -212,7 +212,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         private void SubscribePhoneWithWS()
         {
-            SubscriptionStatus = string.Empty;
+            _dispatcher.BeginInvoke(() => SubscriptionStatus = string.Empty);
             _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
             _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
