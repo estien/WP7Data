@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Windows.Threading;
 using System;
 using System.Windows;
@@ -14,18 +15,6 @@ using WP7Data.Push.ConsumerApp.PushService;
 
 namespace WP7Data.Push.ConsumerApp.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : WP7DataViewModelBase
     {
 
@@ -95,7 +84,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
         }
 
-        
+
 
         private HttpNotificationChannel _pushChannel;
         private readonly PushRegistrationClient _serviceClient;
@@ -105,12 +94,6 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
 
         #endregion
 
-
-
-
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
         public MainViewModel()
         {
             _storageHelper = new ISHelper();
@@ -137,7 +120,6 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.DeviceId, _subscriptionInfo.ChannelURI);
         }
 
-        // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
         private void SetSubscriptionInfo()
         {
             if (_storageHelper.SubscriptionInfoExists())
@@ -156,15 +138,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 _pushChannel = new HttpNotificationChannel("wp7Data_channel");
                 BindChannelEvents();
                 _pushChannel.Open();
-
-                if (!_pushChannel.IsShellToastBound)
-                    _pushChannel.BindToShellToast();
-
-                if(!_pushChannel.IsShellTileBound)
-                {
-                    var listOfAllowedDomains = new Collection<Uri> {new Uri(@"http://wp7pushservice.apphb.com")};
-                    _pushChannel.BindToShellTile(listOfAllowedDomains);
-                }
+                
+                BindChannelToShellTileAndToast();
             }
             else
             {
@@ -173,10 +148,20 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             }
         }
 
+        private void BindChannelToShellTileAndToast()
+        {
+            if (!_pushChannel.IsShellToastBound)
+                _pushChannel.BindToShellToast();
+
+            if (!_pushChannel.IsShellTileBound)
+            {
+                var listOfAllowedDomains = new Collection<Uri> {new Uri(@"http://wp7pushservice.apphb.com")};
+                _pushChannel.BindToShellTile(listOfAllowedDomains);
+            }
+        }
+
         private void BindChannelEvents()
-        {  
-            //if error, print onscreen
-            
+        {
             _pushChannel.ErrorOccurred += myPushChannel_ErrorOccurred;
 
             //ChannelUriUpdated fires when channel is first created or the channel URI changes 
@@ -185,21 +170,8 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             //Handle raw push notifications, which are received only while app is running.
             _pushChannel.HttpNotificationReceived += myPushChannel_HttpNotificationReceived;
 
-            _pushChannel.ShellToastNotificationReceived += _pushChannel_ShellToastNotificationReceived;
-        }
-
-        void _pushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
-        {
-            _dispatcher.BeginInvoke(() => MessageBox.Show(e.Collection["wp:Text2"], "Du har fått en ny Toast:", MessageBoxButton.OK)); 
-        }
-
-
-        private void serviceClient_SubscribePhoneCompleted(object sender, SubscribePhoneCompletedEventArgs subscribePhoneCompletedEventArgs)
-        {
-            _serviceClient.SubscribePhoneCompleted -= serviceClient_SubscribePhoneCompleted;
-            int position = subscribePhoneCompletedEventArgs.Result;
-            ShowSubscriptionInfo(position);
-            ShowNewRegistrationMessage(position);
+            //Handle in-app received toast notifications
+            _pushChannel.ShellToastNotificationReceived += myPushChannel_ShellToastNotificationReceived;
         }
 
         private void ShowNewRegistrationMessage(int position)
@@ -207,9 +179,37 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _dispatcher.BeginInvoke(() => MessageBox.Show("You subscribed as number " + position));
         }
 
+        private void ShowSubscriptionInfo(int subscribedPosition)
+        {
+            _dispatcher.BeginInvoke(
+                () =>
+                SubscriptionStatus = "You are subscribed as number " + subscribedPosition);
+        }
+
+        private void SubscribePhoneWithWS()
+        {
+            _dispatcher.BeginInvoke(() => SubscriptionStatus = string.Empty);
+            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
+            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.DeviceId, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
+        }
+
+        private void NavigateToRegistrationPage()
+        {
+            Navigate("/RegistrationPage.xaml");
+        }
+
+        public void DeleteCurrentSubscriptionInfo()
+        {
+            _storageHelper.DeleteSubscriptionInfo();
+            _serviceClient.UnsubscribePhoneAsync(_subscriptionInfo.DeviceId);
+        }
+
+        #region Events
+
         private void myPushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-            var message = "";
+            string message;
+
             try
             {
                 var reader = new StreamReader(e.Notification.Body);
@@ -223,9 +223,11 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             _dispatcher.BeginInvoke(() => ConsoleText += Environment.NewLine + message);
         }
 
+        private void myPushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
+        {
+            _dispatcher.BeginInvoke(() => MessageBox.Show(e.Collection["wp:Text2"], "Du har fått en ny toast:", MessageBoxButton.OK));
+        }
 
-
-        //ChannelUriUpdated fires when channel is first created or the channel URI changes 
         private void myPushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
             _subscriptionInfo.ChannelURI = e.ChannelUri.ToString();
@@ -233,11 +235,11 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
             SubscribePhoneWithWS();
         }
 
-        private void SubscribePhoneWithWS()
+        private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
-            _dispatcher.BeginInvoke(() => SubscriptionStatus = string.Empty);
-            _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
-            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.DeviceId, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
+            _dispatcher.BeginInvoke(() => MessageBox.Show("PushNotificationError: " + e.ErrorType +
+                                                          Environment.NewLine +
+                                                          e.ErrorCode + Environment.NewLine + e.Message));
         }
 
         private void serviceClient_IsPhoneSubscribedCompleted(object sender, IsPhoneSubscribedCompletedEventArgs e)
@@ -255,31 +257,14 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
                 ShowSubscriptionInfo(subscribedPosition);
         }
 
-        private void ShowSubscriptionInfo(int subscribedPosition)
+        private void serviceClient_SubscribePhoneCompleted(object sender, SubscribePhoneCompletedEventArgs subscribePhoneCompletedEventArgs)
         {
-            _dispatcher.BeginInvoke(
-                () =>
-                SubscriptionStatus = "You are subscribed as number " + subscribedPosition);
+            _serviceClient.SubscribePhoneCompleted -= serviceClient_SubscribePhoneCompleted;
+            int position = subscribePhoneCompletedEventArgs.Result;
+            ShowSubscriptionInfo(position);
+            ShowNewRegistrationMessage(position);
         }
 
-        private void NavigateToRegistrationPage()
-        {
-            Navigate("/RegistrationPage.xaml");
-        }
-
-        private void myPushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
-        {
-            _dispatcher.BeginInvoke(() => MessageBox.Show("PushNotificationError: " + e.ErrorType +
-                                                          Environment.NewLine +
-                                                          e.ErrorCode + Environment.NewLine + e.Message));
-        }
-
-        public void DeleteCurrentSubscriptionInfo()
-        {
-            _storageHelper.DeleteSubscriptionInfo();
-            _serviceClient.UnsubscribePhoneAsync(_subscriptionInfo.DeviceId);
-        }
-
-        
+        #endregion
     }
 }
