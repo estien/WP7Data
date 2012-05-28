@@ -49,6 +49,7 @@ namespace WP7Data.BackgroundTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
+            
             var tileToFind = ShellTile.ActiveTiles.FirstOrDefault();
 
             if(tileToFind != null)
@@ -61,6 +62,17 @@ namespace WP7Data.BackgroundTaskAgent
 
                 tileToFind.Update(tileData);
             }
+            
+            /*
+            
+            var toast = new ShellToast
+                            {
+                                Title = "Toast!",
+                                Content = "Backgrond agent says hello!",
+                            };
+            toast.Show();
+             
+            */
 
             NotifyComplete();
         }
