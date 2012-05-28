@@ -53,7 +53,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         {
             _nick = Nick;
             var anid = UserExtendedProperties.GetValue("ANID") as string;
-            string anonymousUserId = anid.Substring(2, 32);
+            string anonymousUserId = (anid != null) ? anid.Substring(2, 32) : "EmulatorThingy";
             _subscriptionInfo = new SubscriptionInfo
             {
                 DeviceId = anonymousUserId,

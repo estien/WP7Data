@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Threading;
@@ -132,7 +133,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         private void EnsureActiveSubscriptionWithWS()
         {
             _serviceClient.IsPhoneSubscribedCompleted += serviceClient_IsPhoneSubscribedCompleted;
-            _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI);
+            _serviceClient.IsPhoneSubscribedAsync(_subscriptionInfo.DeviceId, _subscriptionInfo.ChannelURI);
         }
 
         // Load or create the subscription that will is current for the device and application installation to the MS push service and our web service
@@ -234,7 +235,7 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         {
             _dispatcher.BeginInvoke(() => SubscriptionStatus = string.Empty);
             _serviceClient.SubscribePhoneCompleted += serviceClient_SubscribePhoneCompleted;
-            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.Guid, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
+            _serviceClient.SubscribePhoneAsync(_subscriptionInfo.DeviceId, _subscriptionInfo.ChannelURI, _subscriptionInfo.Nick, _subscriptionInfo.Device);
         }
 
         private void serviceClient_IsPhoneSubscribedCompleted(object sender, IsPhoneSubscribedCompletedEventArgs e)
@@ -268,13 +269,15 @@ namespace WP7Data.Push.ConsumerApp.ViewModel
         {
             _dispatcher.BeginInvoke(() => MessageBox.Show("PushNotificationError: " + e.ErrorType +
                                                           Environment.NewLine +
-                                                          e.ErrorCode + Environment.NewLine + e.Message))
-            
+                                                          e.ErrorCode + Environment.NewLine + e.Message));
         }
 
         public void DeleteCurrentSubscriptionInfo()
         {
             _storageHelper.DeleteSubscriptionInfo();
+            _serviceClient.UnsubscribePhoneAsync(_subscriptionInfo.DeviceId);
         }
+
+        
     }
 }
