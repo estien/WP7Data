@@ -85,10 +85,11 @@ namespace WP7Data.Push.Service
                                  {
                                      "http://wp7pushservice.apphb.com/images/funny-monkey-2.jpg",
                                      "http://wp7pushservice.apphb.com/images/funny_cow_pink_glasses.JPG",
-                                     "http://wp7pushservice.apphb.com/images/stylowa-lama-583-OBRAZKY.PL.jpg"
+                                     "http://wp7pushservice.apphb.com/images/stylowa-lama-583-OBRAZKY.PL.jpg",
+                                     "http://wp7pushservice.apphb.com/images/ScreenShot057.png"
                                  };
             
-            string formattedTileMessage = string.Format(tileMessage, animalList[new Random().Next(0,3)], new Random().Next(1,99), message);
+            string formattedTileMessage = string.Format(tileMessage, animalList[new Random().Next(0,4)], new Random().Next(1,99), message);
 
             byte[] messageBytes = Encoding.UTF8.GetBytes(formattedTileMessage);
 
